@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+         
+  <display-name>standard-web</display-name>
+  
+  <distributable />
+  
+  <context-param>
+  	<param-name>com.sun.faces.numberOfViewsInSession</param-name>
+    <param-value>5</param-value>
+  </context-param>
+  
+  <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>bootstrap</param-value>
+    </context-param>
+    
+  <context-param>
+      <param-name>com.sun.faces.serializeServerState</param-name>
+      <param-value>false</param-value>
+  </context-param>
+  
+  <context-param>
+      <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+      <param-value>server</param-value>
+  </context-param>
+  
+<!--   <context-param> -->
+<!--       <param-name>javax.faces.FACELETS_LIBRARIES</param-name> -->
+<!--       <param-value>/WEB-INF/safi.taglib.xml</param-value> -->
+<!--   </context-param> -->
+
+ <!-- Set the project stage to "Development", "UnitTest", "SystemTest", or
+    "Production". -->
+ <!-- An optional parameter that makes troubleshooting errors much easier. -->
+ <!-- You should remove this context parameter before deploying to production! -->
+ <context-param>
+ 	<param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+ </context-param>
+ 
+ <context-param>
+     <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+     <param-value>true</param-value>
+ </context-param>
+ 
+ <context-param>
+     <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+     <param-value>true</param-value>
+ </context-param>
+ 
+ <context-param>
+     <param-name>primefaces.UPLOADER</param-name>
+     <param-value>commons</param-value>
+ </context-param>
+ 
+  <context-param>
+  	<param-name>primefaces.FONT_AWESOME</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+      <param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+      <param-value>65535</param-value> <!-- 64KB. -->
+  </context-param>
+  <context-param>
+      <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+      <param-value>0</param-value> <!-- Should be -1 for production. -->
+  </context-param>
+  <context-param>
+      <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+      <param-value>true</param-value>
+  </context-param>
+
+  <context-param>
+      <param-name>com.sun.faces.defaultResourceMaxAge</param-name>
+      <param-value>3628800000</param-value> <!-- 6 weeks. -->
+  </context-param>
+  
+<!--   <context-param>  -->
+<!--   	<param-name>org.omnifaces.CACHE_SETTING_SESSION_MAX_CAPACITY</param-name> -->
+<!--     <param-value>6</param-value>  -->
+<!--   </context-param> -->
+    
+    
+<!--   <context-param> -->
+<!--       <param-name>org.omnifaces.FACES_VIEWS_SCAN_PATHS</param-name> -->
+<!--       <param-value>/pages,/security,/formulacion</param-value> -->
+<!--   </context-param> -->
+  
+  <context-param>
+      <param-name>org.omnifaces.FACES_VIEWS_PATH_ACTION</param-name>
+      <param-value>REDIRECT_TO_SCANNED_EXTENSIONLESS</param-value>
+  </context-param>
+  
+  <context-param>
+      <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+      <param-value>true</param-value>
+  </context-param>    
+ 
+ 
+<!--   <filter> -->
+<!--   	<filter-name>Character Encoding Filter</filter-name> -->
+<!--     <filter-class>org.primefaces.adamantium.filter.CharacterEncodingFilter</filter-class> -->
+<!--   </filter> -->
+<!--   <filter-mapping> -->
+<!--   	<filter-name>Character Encoding Filter</filter-name> -->
+<!--     <servlet-name>Faces Servlet</servlet-name> -->
+<!--   </filter-mapping> -->
+	
+  <filter>
+    <filter-name>facesExceptionFilter</filter-name>
+    <filter-class>org.omnifaces.filter.FacesExceptionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>facesExceptionFilter</filter-name>
+    <servlet-name>facesServlet</servlet-name>
+  </filter-mapping>
+  
+  <filter>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>        
+    </filter>
+    <filter-mapping>
+        <filter-name>PrimeFaces FileUpload Filter</filter-name>
+        <servlet-name>facesServlet</servlet-name>
+    </filter-mapping>
+  
+  <servlet>
+   	<servlet-name>facesServlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+   </servlet>
+   
+   <servlet-mapping>
+   	<servlet-name>facesServlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
+   </servlet-mapping>
+  
+  <mime-mapping>
+  	<extension>svg</extension>
+    <mime-type>image/svg+xml</mime-type>
+  </mime-mapping>
+  
+  <session-config>
+	  <cookie-config>
+	      <http-only>true</http-only>
+	  </cookie-config>
+	  <tracking-mode>COOKIE</tracking-mode>
+	  <session-timeout>30</session-timeout>
+  </session-config>
+  
+   <error-page>
+        <error-code>403</error-code>
+        <location>/errors/access-denied.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errors/404.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errors/error.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <error-code>503</error-code>
+        <location>/errors/error.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/errors/expired.xhtml</location>
+    </error-page>
+
+
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>otf</extension>
+        <mime-type>font/opentype</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/x-font-ttf</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/x-font-woff2</mime-type>
+    </mime-mapping>
+   
+  
+</web-app>

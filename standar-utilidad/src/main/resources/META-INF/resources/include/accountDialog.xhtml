@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<p:dialog id="accountDialog" header="#{safiCommonBundle.accountDialogHeader}"
+		widgetVar="accountDlg" width="365" height="125" modal="true" responsive="true">
+
+		<h:form id="accountForm" prependId="false"
+			style="width: 250px; height: 125px">
+
+
+			<p:panelGrid id="perfilGrid" columns="2" style="border:0px;">
+
+				<p:outputLabel style="margin-right:10px"
+					value="#{safiCommonBundle.LoginLabelUserName}" />
+				<p:outputLabel value="#{segSecurityController.userFullName}" />
+
+				<p:outputLabel style="margin-right:10px"
+					value="#{safiCommonBundle.language}" />
+				<p:selectOneMenu id="languageSelectOneMenu"
+					value="#{localeController.language}" onchange="submit()"
+					converter="jsfUniversalConverter" panelStyle="width:180px"
+					effect="fade" var="t" style="width:160px"
+					valueChangeListener="#{localeController.languageChanged}">
+					<f:selectItems value="#{localeController.languages}" var="lenguage"
+						itemLabel="#{lenguage.displayName}" itemValue="#{lenguage}" />
+					<p:column>
+						<p:graphicImage library="images" name="languages/#{t.image}" />
+					</p:column>
+					<p:column>
+                      #{t.displayName} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </p:column>
+				</p:selectOneMenu>
+
+
+			</p:panelGrid>
+
+		</h:form>
+
+
+
+	</p:dialog>
+
+</ui:composition>
+
+</html>

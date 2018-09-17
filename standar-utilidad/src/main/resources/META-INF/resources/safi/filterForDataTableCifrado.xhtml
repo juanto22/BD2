@@ -1,0 +1,71 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <cc:interface >
+        <cc:attribute name="dataTable" required="true" type="java.lang.String" shortDescription="El nombre del DataTable del elemento Filter del DataTable." />
+		<cc:attribute name="model" required="true" type="sv.gob.mh.safi.uicomponent.cifrado.CifradoClasificador" shortDescription="El Model a utiliza en el elemento." />
+		<cc:attribute name="list" required="true" type="java.util.List" shortDescription="Lista del datatable." />
+    </cc:interface>
+
+    <cc:implementation>
+		<p:outputPanel id="_closebuttonpanel">
+     		<p:commandButton id="_openfilterbutton" icon="#{cc.attrs.model.icon}" process="@this" 
+     			styleClass=" Fleft GrayButton RaisedButton" action="#{cc.attrs.model.hidePanel()}" update="#{cc.clientId}:childrenNodes, #{cc.clientId}:_openfilterbutton" />
+			<p:outputPanel style="clear:both;" />
+		</p:outputPanel>
+		
+       	<p:outputPanel id="childrenNodes">
+       		<p:outputPanel rendered="#{cc.attrs.model.render}">
+       		
+         		<h:panelGrid columns="5" id="panelGridFilter">
+                  	<p:outputLabel value="Clasificadores: #{nodo.selected}" /> 
+                  	<p:selectOneMenu value="#{cc.attrs.model.selectedPadre}" id="clasificadores">
+                  		<f:selectItem itemValue="" itemLabel="-- Seleccione --"  />
+                    	<f:selectItems value="#{cc.attrs.model.nodos}" var="nodo"
+                     			itemValue="#{nodo.orden}-#{nodo.idPadre}" 
+                     				itemLabel="#{nodo.idPadre} - #{nodo.descItem}" />
+                    	<p:ajax process="@this" listener="#{cc.attrs.model.onClasifChangeFilter}"  />
+                  	</p:selectOneMenu>
+                     	
+		            <p:outputLabel value="#{cc.attrs.model.nodoCifrado.descItem}: " rendered="#{not empty cc.attrs.model.nodoCifrado}" /> 
+	                <p:selectOneMenu value="#{cc.attrs.model.selectedHijo}" id="itemClasificador"
+	                	rendered="#{not empty cc.attrs.model.nodoCifrado}" 
+	                	disabled="#{cc.attrs.model.nodoCifrado.disabled eq 1}">
+	                	<p:ajax process="@this" listener="#{cc.attrs.model.updateDependencias}" />
+	                	<f:selectItem itemValue="" itemLabel="Seleccione" />
+	                	<f:selectItems value="#{cc.attrs.model.nodoCifrado.hijos.hijo}" var="hijo"
+	                		itemLabel="#{hijo.codHijo} - #{hijo.descHijo}"  itemValue="#{hijo.codHijo}-#{hijo.descHijo}-#{hijo.idHijo}"/>
+	            	</p:selectOneMenu>     
+	            	
+	            	<p:commandButton icon="fa fa-plus" id="_btnAdd" rendered="#{not empty cc.attrs.model.nodoCifrado}" action="#{cc.attrs.model.addFilter}" process="@this, panelGridFilter"
+	            	disabled="#{cc.attrs.model.nodoCifrado.disabled eq 1}"/>
+         		</h:panelGrid>
+     			
+	     		<p:dataTable var="nodo" value="#{cc.attrs.model.selectedChildren2}" rowIndexVar="index" style="width:50%;"
+	     			rendered="#{not empty cc.attrs.model.selectedChildren2}">
+	     			<p:column headerText="Código" style="width:10%;">#{nodo.codHijo}</p:column>
+	     			<p:column headerText="Descripción" style="width:40%;">#{nodo.descHijo}</p:column>
+	     			<p:column headerText="Acción" style="width:5%;">
+	     				<center>
+		     				<p:commandButton icon="fa fa-remove" action="#{cc.attrs.model.removeFilter(index, cc.attrs.list, cc.attrs.dataTable)}" 
+		     					update="#{cc.attrs.dataTable}" process="@this, #{cc.clientId}:panelGridFilter" />
+	     				</center>
+	     			</p:column>
+	     		</p:dataTable>
+	     		
+	     		<p:commandButton rendered="#{not empty cc.attrs.model.selectedChildren2}" update="#{cc.attrs.dataTable}" process="@this"
+	     			value="Filtrar" action="#{cc.attrs.model.filterData(cc.attrs.dataTable, cc.attrs.list)}"/>
+	     		<p:commandButton rendered="#{not empty cc.attrs.model.selectedChildren2}" update="#{cc.attrs.dataTable} #{cc.clientId}:childrenNodes _closebuttonpanel" process="@this"
+	     			value="Quitar Filtros" action="#{cc.attrs.model.removeFilters(cc.attrs.list, cc.attrs.dataTable)}"/>
+	    	</p:outputPanel>
+   		</p:outputPanel>
+  		
+    </cc:implementation>
+
+</ui:component>

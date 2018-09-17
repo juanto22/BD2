@@ -1,0 +1,279 @@
+table.estiloGrid 
+{
+    border:0px solid #000; 
+    padding:0px; 
+    border-collapse: 
+        collapse; 
+    margin: 0 auto;
+}
+
+table.bandejaReporte
+{
+    border:0px solid #000; 
+    padding:0px; 
+    border-collapse: 
+        collapse; 
+}
+
+
+table.estiloGrid td.claseTabla table tr td, table.bandejaReporte td.claseTabla table tr td
+{
+    padding:0px; 
+    font-size: 13px;
+}
+
+table.estiloGrid .ui-datatable  table tbody td, table.bandejaReporte .ui-datatable  table tbody td
+{
+    font-weight: normal !important; 
+    background-color: #f7f5f3; 
+    padding: 3px 2px !important;
+}
+
+table.estiloGrid .ui-datatable  table thead tr th, table.bandejaReporte .ui-datatable  table thead tr th
+{
+    color: #000; 
+    font-size:13px;
+    background-color: #B8CCE4;
+}
+
+table.estiloGrid .ui-datatable table tbody .ui-state-highlight > td, table.bandejaReporte .ui-datatable table tbody .ui-state-highlight > td
+{
+    background-color: #D8D8D8;
+}
+
+table.estiloGrid .ui-datatable .ui-datatable-header, table.estiloGrid .ui-datatable .ui-paginator-bottom, div.estiloFoot div.ui-carousel .ui-carousel-header,  .ui-carousel-header
+{
+    background-color:#004c80 !important;
+    padding:0px; 
+}
+
+div.estiloFoot div table tbody tr td, div.ui-panel-content table tbody tr td, div.ui-panel .ui-panel-content, .estiloBandeja div.ui-treetable table thead tr th, .estiloBandeja div.ui-treetable table tbody tr td 
+{
+    font-size: 13px;
+}
+
+.estiloGrid .default td, .bandejaReporte .default td
+{color: green !important;
+ font-weight: normal !important; 
+ text-transform:capitalize; 
+ padding:0px;
+}
+
+.ui-datatable table tbody td
+{
+    padding:0px;
+}
+
+table.estiloGrid .ui-datatable table tbody tr .ui-state-highlight td
+{
+    background-color: #D8D8D8 !important;
+    color: #ffffff;
+}
+
+table.bandejaReporte .ui-datatable table tbody .ui-state-highlight > td
+{
+    color: #546e7a;
+}
+
+table.bandejaReporte .ui-datatable  table
+{
+    width: auto;
+}
+
+input.ui-column-filter
+{
+    height: 5px;
+}
+
+.estiloBandeja div.ui-treetable table thead tr th,.estiloBandeja .ui-treetable-header
+{
+    background-color:#004c80 !important;
+    color: #FFFFFF;
+    border: dashed 1px #c5d5e2;
+
+
+}
+
+.estiloBandeja div.ui-treetable table tbody tr td
+{
+    padding:2px;
+}
+
+div.barra{
+    overflow:auto;
+    margin:auto;
+}
+
+div.ui-panel-titlebar
+{
+    background-color:#004c80 !important;
+}
+
+h3.ui-accordion-header, div.ui-paginator-top, div.ui-datatable-header, div.ui-paginator-bottom
+{
+    background-color:#004c80 !important;
+}
+
+div.ui-tabs-top div ul.ui-tabs-nav li a 
+{
+    font-size:14px;
+}
+
+.loadIcon
+{
+    width:70px;
+    height:70px;
+    position:fixed;
+    right:7px;
+    bottom:50px;
+    top:  50%; 
+    left: 50%;
+}
+
+.estiloMenu
+{
+    float: right; display: in line block;
+}
+
+.estiloBandeja div.ui-treetable-header
+{
+    margin-right: 15px;
+}
+
+.centrado
+{
+    text-align: center; 
+    width: auto; 
+}
+
+.PanelCentrada
+{
+    margin: 0 auto; 
+    text-align: left;
+}
+
+.tablaRrhh {
+    width:auto;
+    overflow: auto;
+    border:0px solid #000; 
+    padding:0px; 
+    border-collapse: collapse; 
+}
+
+.tablaRrhh th{
+    width:auto;
+    text-align:center;
+    color: #000; 
+    font-size:13px;
+    background-color: #B8CCE4;
+    border: solid 1px #c1d5df;
+}
+
+.tablaRrhh table tbody td{
+    background-color: #f7f5f3 !important;
+    font-size:13px;
+    border-color: #c6d6df !important;
+    padding: 3px 2px !important;
+    color: #000;
+
+}
+
+.tablaRrhh table tbody .ui-state-highlight > td
+{
+    background-color: #D8D8D8 !important;
+    color: #000;
+}
+
+.panelGridCentro {
+    text-align: center; 
+    left:40%; 
+    position: absolute; 
+    margin-top: 20px;
+}
+
+.buttonLink {
+    padding: 10px 24px !important;
+    color: white !important;
+}
+
+.tablaRrhh table {   
+    width: auto !important;   
+}
+
+.tablaRrhh table thead th.ajustEspecifico{
+width: 250px !important;
+}
+
+.ui-datatable table tbody td.celda-cifrado, .ui-datatable table thead th.celda-cifrado{position:relative !important; padding:0px !important; text-align: center !important;}
+.ui-datatable table thead th.celda-cifrado{font-size:10px;}
+.celda-cifrado div.segment{float:left !important; padding:0px !important;  height:100%; border-right:1px solid #999;}
+.cla{float:left; padding:5px 0px; margin:0px; text-align:center; border-left:1px solid #c1c1c1;  height:100%; vertical-align:center;}
+.cla-hidden, .segment-hidden{color:#f1f1f1;}
+.celda-cifrado .pd{margin:0px; height:100%; top:0;}
+.celda-cifrado .pd .clr{clear:both;}
+.top-align-table td {
+    vertical-align: top;
+}
+
+.layoutClass {
+    width:auto; 
+    min-height:310px; 
+    display: inline-block; 
+    left: 20%;
+}
+
+table.bordeCeldas tbody tr td.ui-panelgrid-cell   {
+    border-style: none !important;
+}
+.bordeCeldas {
+    display: block;
+}
+.safi-blocked-edition{
+    background-color: transparent;
+}
+
+.ui-datatable .ui-column-filter {
+    height: 12px !important;
+	font-size: 10pt;
+}
+
+th.estilo input.ui-column-filter{
+ width:40px !important;
+}
+
+fieldset.fieldColor legend{
+    background-color: #d1d3d4 !important;
+    color: black !important;
+}
+
+.ui-datatable .ui-column-filter {
+    height: 34px !important;
+} 
+.w20{
+    width: 20px;
+}
+.w30{
+    width: 30px;
+}
+.w40{
+    width: 40px;
+}
+.w50{
+    width: 50px;
+}
+.w100{
+    width: 100px;
+}
+.w150{
+    width: 150px;
+}
+.w200{
+    width: 200px;
+}
+.w250{
+    width: 250px;
+}
+.fC{cursor:pointer;position:relative;overflow:initial !important;padding:2px 10px !important;}
+.fC .uiColumnInputFc{position:absolute;visibility: hidden; top:-2px; left:1px; padding:3px !important; margin:3px auto !important; width:98% !important; height:95% !important; text-align: center !important; border:#004c80 2px solid !important;}
+th.estilo.fC input.ui-column-filter{ width:100% !important;}
+.fC.fil .uiColumnInputFc{visibility: visible;}

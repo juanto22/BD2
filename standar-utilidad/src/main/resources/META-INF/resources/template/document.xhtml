@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="./baseLayout.xhtml"
+                xmlns:safic="http://safi.gov/ui"
+                xmlns:safi="http://www.mh.gob.sv.org/dinafi/jsf/safi">
+
+    <ui:define name="head">
+    </ui:define>
+
+    <ui:define name="subheader">
+        <h:outputText value="#{safiCommonBundle.AppName}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="documents" >
+        <p:commandButton id="documentsButton" icon="fa fa-folder-open" value="Documentos" title="Mostrar/Ocultar Documentos" styleClass="OrangeButton RaisedButton" type="button" onclick="documentsButtonClick('mgd_panel', 'documentsButton')" />
+    </ui:define>
+
+    <ui:define name="mainContent" >
+        <ui:param name="createDocumentGridColumns" value="2" />
+        <ui:insert name="documentmodelBody" />
+        <h:form id="documentosListForm" prependId="false">
+            <p:panel id="mgd_panel" widgetVar="mgd_panel" toggleable="false" closable="true"  closeSpeed="500" style="display:none;" >
+                <p:outputPanel id="outputTreePanel" styleClass="estiloBandeja" >
+                    <p:outputPanel rendered="#{not(documentmodelView.multiple)}">
+                        <p:dataTable id="treeTableSpecDocuments" widgetVar="documentsDataTable" 
+                                     var="currentItem" value="#{documentmodelView.lazyModel}" 
+                                     lazy="true"  paginator="true" rows="10" 
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     rowsPerPageTemplate="5,10,15,#{documentmodelView.lazyModel.rowCount}" 
+                                     selectionMode="single" selection="#{documentmodelView.editableItem}" 
+                                     resizableColumns="true" sortBy="#{currentItem.managedDocument.documentNumber}" >
+                            <p:ajax event="rowToggle" listener="#{documentmodelView.onRowToggle}"/>
+                            <p:ajax event="filter" update="trayButtonsPanel" />
+
+                            <ui:param name="instit" value="#{documentmodelView.findItemClasificador(currentItem.managedDocument.institution)}" />
+                            <ui:param name="isApproved" value="#{documentmodelView.finalTransitions[currentItem.managedDocument.typeByFlow.type.code].finalStage.code==currentItem.managedDocument.currentStage.code}" />
+                            <ui:param name="isEditable" value="#{documentmodelView.editableStages[currentItem.managedDocument.typeByFlow.type.code].contains(currentItem.managedDocument.currentStage.code)}" />
+                            <ui:param name="isRemovable" value="#{documentmodelView.removableStages[currentItem.managedDocument.typeByFlow.type.code].contains(currentItem.managedDocument.currentStage.code)}" />
+                            <ui:param name="isClonable" value="#{documentmodelView.isClonable(currentItem)}" />
+
+                            <f:facet name="header" >
+                                <h:outputText value="#{listHeader}" />
+                            </f:facet>
+
+                            <p:column headerText="Acciones"  style="width:140px">
+
+                                <p:commandButton icon="fa fa-edit" title="Editar"   actionListener="#{documentmodelView.buttonEdit(currentItem)}" process="@form" update="documentosListForm document-detail" rendered="#{not(isApproved) and isEditable and documentmodelView.editButtonEnabled}" />
+
+                                <p:commandButton icon="fa fa-copy" styleClass="BrownButton RaisedButton" title="Modificar Aprobado"  actionListener="#{documentmodelView.buttonEditApproved(currentItem)}" process="@form" update="confirmEditDocumentForm"  rendered="#{isClonable and isApproved and documentmodelView.editButtonEnabled}" oncomplete="PF('confirmEditDocumentDialog').show();"  />
+
+                                <p:commandButton icon="fa fa-search"  title="Ver detalle" actionListener="#{documentmodelView.buttonSelect(currentItem)}" process="@form" update="documentosListForm document-detail" rendered="#{documentmodelView.showButtonEnabled}" />
+
+                                <p:commandButton icon="fa  fa-remove"  title="Eliminar"  actionListener="#{documentmodelView.buttonDelete(currentItem)}" process="@form" update="documentosListForm document-detail" rendered="#{not(isApproved) and isRemovable or documentmodelView.deleteButtonEnabled}" />
+
+                                <ui:insert name="datatableActions" />
+                            </p:column>
+
+                            <ui:insert name="beforeDocumentColumns" />
+
+                            <p:column headerText="#{safiCommonBundle.Institution}"  filterBy="#{currentItem.managedDocument.institution}" sortBy="#{currentItem.managedDocument.institution}" style="width:150px">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu filter="true" showHeader="false" value="#{documentmodelView.displayingInstitutionsList}"  label="#{safiCommonBundle.Institution}" onchange="PF('documentsDataTable').filter()"  >
+                                        <f:selectItems value="#{documentmodelView.institutions}" var="inst" itemLabel="#{inst.descripcion}" itemValue="#{inst.id}" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{instit!=null?instit.descripcion:'N/A'}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Date}"  filterBy="#{currentItem.managedDocument.creationDate}" sortBy="#{currentItem.managedDocument.creationDate}"  style="width:150px" rendered="#{documentmodelView.creationDateEnabled}">
+                                <h:outputText value="#{of:formatDate(currentItem.managedDocument.creationDate, 'dd/MM/yyyy hh:mm a')}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.RegisterType}"  filterBy="#{currentItem.managedDocument.recordType}" sortBy="#{currentItem.managedDocument.recordType}" style="width:160px"  rendered="#{documentmodelView.recordTypeEnabled}">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu filter="true" showHeader="false" value="#{documentmodelView.displayingRecordTypeList}"  label="#{safiCommonBundle.RegisterType}" onchange="PF('documentsDataTable').filter()"  >
+                                        <f:selectItem itemLabel="CREACION" itemValue="CRE"  />
+                                        <f:selectItem itemLabel="MODIFICACION" itemValue="MOD" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{currentItem.managedDocument.recordType}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Number}"  filterBy="#{currentItem.managedDocument.documentNumber}" sortBy="#{currentItem.managedDocument.documentNumber}" style="width:100px" rendered="#{documentmodelView.documentNumberEnabled}">
+                                <h:outputText value="#{currentItem.managedDocument.documentNumber}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.DocumentType}"  style="width:130px" rendered="#{documentmodelView.typeByFlowEnabled}">
+                                <h:outputText value="#{currentItem.managedDocument.typeByFlow.type.description}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Name}" filterBy="#{currentItem.managedDocument.description}" sortBy="#{currentItem.managedDocument.description}" style="width:450px" rendered="#{documentmodelView.descriptionEnabled}">
+                                <h:outputText value="#{currentItem.managedDocument.description}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Status}"  filterBy="#{currentItem.managedDocument.currentStage.description}" sortBy="#{currentItem.managedDocument.currentStage.description}" filterMatchMode="in" style="width:120px" rendered="#{documentmodelView.currentStageEnabled}">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu filter="true" showHeader="false" value="#{documentmodelView.displayingStageList}"  label="#{safiCommonBundle.Status}" onchange="PF('documentsDataTable').filter()"  >
+                                        <f:selectItems value="#{documentmodelView.stageList}" var="stage" itemLabel="#{stage.description}" itemValue="#{stage.description}" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:panelGroup rendered="#{isApproved}">
+                                    <h:outputText title="Este documento es el Vigente" value="#{currentItem.managedDocument.currentStage.description}" />
+                                    <span title="Este documento es el Vigente" class="fa fa-file-text Brown" style="display: table-cell; float: right;" onclick="jQuery(this).next('.ui-row-toggler').click();" />
+                                    <p:rowToggler collapseLabel="Ocultar historial" expandLabel="Ver historial" />
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{not(isApproved)}">
+                                    <h:outputText value="#{currentItem.managedDocument.currentStage.description}" />
+                                </h:panelGroup>
+                            </p:column>
+                            <p:rowExpansion>
+
+                            </p:rowExpansion>
+
+                            <ui:insert name="afterDocumentColumns" />
+                        </p:dataTable>
+                    </p:outputPanel>
+                    <p:outputPanel rendered="#{documentmodelView.multiple}">
+                        <p:dataTable id="treeTableDocuments" widgetVar="documentsDataTable1" 
+                                     var="document" value="#{documentmodelView.lazyModel}" 
+                                     lazy="true" paginator="true" rows="10"
+                                     paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                     rowsPerPageTemplate="5,10,15,#{documentmodelView.lazyModel.rowCount}" 
+                                     selectionMode="single" selection="#{documentmodelView.currentDocument}" 
+                                     resizableColumns="true" sortBy="#{document.documentNumber}" >
+                            <p:ajax event="rowToggle" listener="#{documentmodelView.onRowToggle}"/>
+                            <p:ajax event="filter" update="trayButtonsPanel" />
+
+                            <ui:param name="instit" value="#{documentmodelView.findItemClasificador(document.institution)}" />
+                            <ui:param name="isApproved" value="#{documentmodelView.finalTransitions[document.typeByFlow.type.code].finalStage.code==document.currentStage.code}" />
+                            <ui:param name="isEditable" value="#{documentmodelView.editableStages[document.typeByFlow.type.code].contains(document.currentStage.code)}" />
+                            <ui:param name="isRemovable" value="#{documentmodelView.removableStages[document.typeByFlow.type.code].contains(document.currentStage.code)}" />
+                            <ui:param name="isClonable" value="#{documentmodelView.isClonable(document)}" />
+
+                            <f:facet name="header" >
+                                <h:outputText value="#{listHeader}" />
+                            </f:facet>
+
+                            <p:column headerText="Acciones"  style="width:140px">
+                                <p:commandButton icon="fa fa-edit"  title="Editar"  actionListener="#{documentmodelView.buttonEdit(document)}" process="@form" update="documentosListForm document-detail" rendered="#{not(isApproved) and isEditable and documentmodelView.editButtonEnabled}" />
+
+                                <p:commandButton icon="fa fa-copy" styleClass="BrownButton RaisedButton" title="Modificar Aprobado" actionListener="#{documentmodelView.buttonEditApproved(document)}" process="@form" update="documentosListForm document-detail confirmEditDocumentForm"  rendered="#{isClonable and isApproved and documentmodelView.editButtonEnabled}" oncomplete="PF('confirmEditDocumentDialog').show();"  />
+
+                                <p:commandButton icon="fa fa-search"  title="Ver detalle" actionListener="#{documentmodelView.buttonSelect(document)}" process="@form" update="documentosListForm document-detail" rendered="#{documentmodelView.showButtonEnabled}" />
+
+                                <p:commandButton icon="fa  fa-remove"  title="Eliminar"  actionListener="#{documentmodelView.buttonDelete(document)}" process="@form" update="documentosListForm document-detail" rendered="#{not(isApproved) and isRemovable or documentmodelView.deleteButtonEnabled}" />
+
+                                <ui:insert name="datatableActions" />
+                            </p:column>
+                            <ui:insert name="beforeDocumentColumns" />
+
+                            <p:column headerText="#{safiCommonBundle.Institution}" filterBy="#{document.institution}" sortBy="#{document.institution}" filterMatchMode="in" style="width:170px">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu filter="true" showHeader="false" value="#{documentmodelView.displayingInstitutionsList}"  label="#{safiCommonBundle.Institution}" onchange="PF('documentsDataTable1').filter()"  >
+                                        <f:selectItems value="#{documentmodelView.institutions}" var="inst" itemLabel="#{inst.descripcion}" itemValue="#{inst.id}" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{instit!=null?instit.descripcion:'N/A'}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Date}"  filterBy="#{document.creationDate}" sortBy="#{document.creationDate}" style="width:150px" rendered="#{documentmodelView.creationDateEnabled}">
+                                <h:outputText value="#{of:formatDate(document.creationDate, 'dd/MM/yyyy hh:mm a')}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.RegisterType}"  filterBy="#{document.recordType}" sortBy="#{document.recordType}" style="width:160px"  rendered="#{documentmodelView.recordTypeEnabled}">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu filter="true" showHeader="false" value="#{documentmodelView.displayingRecordTypeList}"  label="#{safiCommonBundle.RegisterType}" onchange="PF('documentsDataTable1').filter()"  >
+                                        <f:selectItem itemLabel="CREACION" itemValue="CRE"  />
+                                        <f:selectItem itemLabel="MODIFICACION" itemValue="MOD" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{document.recordType}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Number}"  filterBy="#{document.documentNumber}"  sortBy="#{document.documentNumber}" style="width:100px" rendered="#{documentmodelView.documentNumberEnabled}">
+                                <h:outputText value="#{document.documentNumber}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.DocumentType}"  filterBy="#{document.typeByFlow.type.code}" sortBy="#{document.typeByFlow.type.code}" style="width:130px" rendered="#{documentmodelView.typeByFlowEnabled}">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu filter="true" showHeader="false" value="#{documentmodelView.displayingDocumentTypes}"  label="Tipo" onchange="PF('documentsDataTable1').filter()"  >
+                                        <f:selectItems value="#{documentmodelView.documentTypeSelectItems}"  />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:outputText value="#{document.typeByFlow.type.description}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Name}" filterBy="#{document.description}" sortBy="#{document.description}"  style="width:450px" rendered="#{documentmodelView.descriptionEnabled}">
+                                <h:outputText value="#{document.description}" />
+                            </p:column>
+
+                            <p:column headerText="#{safiCommonBundle.Status}"  filterBy="#{document.currentStage.description}" sortBy="#{document.currentStage.description}" filterMatchMode="in" style="width:120px" rendered="#{documentmodelView.currentStageEnabled}">
+                                <f:facet name="filter">
+                                    <p:selectCheckboxMenu filter="true" showHeader="false" value="#{documentmodelView.displayingStageList}"  label="#{safiCommonBundle.Status}" onchange="PF('documentsDataTable1').filter()"  >
+                                        <f:selectItems value="#{documentmodelView.stageList}" var="stage" itemLabel="#{stage.description}" itemValue="#{stage.description}" />
+                                    </p:selectCheckboxMenu>
+                                </f:facet>
+                                <h:panelGroup rendered="#{isApproved}">
+                                    <h:outputText title="Este documento es el Vigente" value="#{document.currentStage.description}" />
+                                    <span title="Este documento es el Vigente" class="fa fa-file-text Brown" style="display: table-cell; float: right;" onclick="jQuery(this).next('.ui-row-toggler').click();" />
+                                    <p:rowToggler collapseLabel="Ocultar historial" expandLabel="Ver historial" />
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{not(isApproved)}">
+                                    <h:outputText value="#{document.currentStage.description}" />
+                                </h:panelGroup>
+
+                            </p:column>
+                            <p:rowExpansion>
+                                <p:dataTable value="#{documentmodelView.currentDocument.history}" var="pa">
+                                    <f:facet name="header" >
+                                        <h:outputText value="Historial de Aprobaciones" />
+                                    </f:facet>
+                                    <p:column headerText="Acciones"  style="width:140px">
+                                        <p:commandButton icon="fa fa-search"  title="Ver detalle" actionListener="#{documentmodelView.buttonSelect(pa)}" process="@form" update="documentosListForm document-detail"  />
+                                    </p:column>
+                                    <p:column headerText="#{safiCommonBundle.Institution}" style="width:170px">
+                                        <h:outputText value="#{instit!=null?instit.descripcion:'N/A'}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{safiCommonBundle.Date}"  style="width:150px" rendered="#{documentmodelView.creationDateEnabled}">
+                                        <h:outputText value="#{of:formatDate(pa.creationDate, 'dd/MM/yyyy hh:mm a')}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{safiCommonBundle.RegisterType}"  style="width:160px"  rendered="#{documentmodelView.recordTypeEnabled}">
+                                        <h:outputText value="#{pa.recordType}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{safiCommonBundle.Number}"  style="width:100px" rendered="#{documentmodelView.documentNumberEnabled}">
+                                        <h:outputText value="#{pa.documentNumber}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{safiCommonBundle.DocumentType}"  style="width:130px" rendered="#{documentmodelView.typeByFlowEnabled}">
+                                        <h:outputText value="#{pa.typeByFlow.type.description}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{safiCommonBundle.Name}" style="width:450px" rendered="#{documentmodelView.descriptionEnabled}">
+                                        <h:outputText value="#{pa.description}" />
+                                    </p:column>
+
+                                    <p:column headerText="#{safiCommonBundle.Status}"  style="width:120px" rendered="#{documentmodelView.currentStageEnabled}">
+                                        <h:outputText value="#{pa.currentStage.description}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:rowExpansion>
+
+                            <ui:insert name="afterDocumentColumns" />
+                        </p:dataTable>
+                    </p:outputPanel>
+                </p:outputPanel>
+
+                <p:outputPanel id="trayButtonsPanel">
+                    <p:toolbar>
+                        <f:facet name="left">
+                            <p:commandButton title="Crear Nuevo Documento"
+                                             styleClass="CyanButton RaisedButton" 
+                                             icon="fa fa-newspaper-o White" 
+                                             id="crearDocumentoConsolidado" 
+                                             value="#{safiCommonBundle.CrearDoc}" 
+                                             actionListener="#{documentmodelView.prepareCreateButton}" 
+                                             process="@this" 
+                                             update="document-detail selecCrearDocumentoForm documentosListForm" 
+                                             oncomplete="PF('CreaDocumentoDlg').show()" onerror="alert('ERROR!')" 
+                                             rendered="#{documentmodelView.canCreate}"/>  
+                            <ui:insert name="trayButtons" />
+                        </f:facet>
+                    </p:toolbar>
+                </p:outputPanel>
+            </p:panel>
+        </h:form>
+
+        <p:outputPanel id="document-detail">
+            <p:growl escape="false" id="mensajes" showDetail="true" />
+            <ui:param name="isApprovable" value="#{documentmodelView.currentDocument!=null?documentmodelView.finalTransitions[documentmodelView.currentDocument.typeByFlow.type.code].finalStage.code==documentmodelView.currentDocument.currentStage.code:false}" />
+            <ui:param name="isVisibleByStage" value="#{documentmodelView.currentDocument!=null?!documentmodelView.nonExecutableStages[documentmodelView.currentDocument.typeByFlow.type.code].contains(documentmodelView.currentDocument.currentStage.code):false}" />
+            <p:outputPanel rendered="#{documentmodelView.detailSelected}">
+                <div class="Container100 Responsive50">
+                    <div class="ContainerIndent">
+                        <div class="Card">
+                            <h:form prependId="false">
+                                <p:toolbar>
+                                    <f:facet name="left">
+
+                                        <p:outputPanel id="not-deleting-div" rendered="#{isVisibleByStage and not(isApprovable) and not(documentmodelView.viewStatus.description.toUpperCase().startsWith('REMOVE'))}">
+                                            <p:outputPanel id="transitions-bar" rendered="#{documentmodelView.currentDocument!=null}">
+                                                <ui:repeat  value="#{documentmodelView.transitions}" var="transition">
+                                                    <ui:param name="isObservable" value="#{'OBSER'.equals(transition.finalStage.code) or documentmodelView.observableStages[documentmodelView.currentDocument.typeByFlow.type.code].contains(transition.finalStage.code)}" />
+                                                    <ui:param name="isApprove" value="#{documentmodelView.finalTransitions[documentmodelView.currentDocument.typeByFlow.type.code].finalStage.code==transition.finalStage.code}" />
+                                                    <p:commandButton title="Aplicar la accion #{transition.managedDocumentAction.actionName}(#{transition.orderIndex})" rendered="#{transition.id!=null and (transition.orderIndex gt 0) and transition.finalStage.description!=null and isObservable}" icon="fa fa-eye" id="btn-transition-obervada-#{transition.id}" value="#{transition.managedDocumentAction.actionName}" actionListener="#{documentmodelView.currentTransition(transition)}" oncomplete="PF('confirmObservDialog').show()" update="confirmObservPanel" />
+                                                    <p:commandButton title="Aplicar la accion #{transition.managedDocumentAction.actionName}(#{transition.orderIndex})" rendered="#{transition.id!=null and (transition.orderIndex gt 0) and not(transition.finalStage.description!=null and isObservable)}"  icon="#{isApprove?'fa fa-thumbs-o-up':transition.finalStage.description.startsWith('ANU', 0)?'fa fa-thumbs-o-down':'fa fa-hand-o-right'} " id="btn-transition-normal-#{transition.id}"  value="#{transition.managedDocumentAction.actionName}" actionListener="#{documentmodelView.executeTransition(transition)}" process="transitions-bar" update="transitions-bar documentosListForm document-detail" />
+                                                </ui:repeat>
+                                            </p:outputPanel>
+                                        </p:outputPanel>
+
+                                        <p:outputPanel id="deleting-div" rendered="#{not(isApprovable) and documentmodelView.viewStatus.description.toUpperCase().startsWith('REMOVE')}">
+                                            <p:commandButton styleClass="RedButton"  icon="fa fa-trash-o" id="btn-delete"  value="Confirmo BORRAR" actionListener="#{documentmodelView.delete}" process="@this" update="documentosListForm document-detail" />
+                                        </p:outputPanel>                                        
+                                    </f:facet>
+                                    <f:facet name="right">
+                                        <p:commandButton id="returnTrayButton" styleClass="GreenButton RaisedButton" icon="fa fa-arrow-up" title="Regresar a la Bandeja" actionListener="#{documentmodelView.cancelSave}" process="@this" update="documentosListForm document-detail" />
+                                    </f:facet>
+                                </p:toolbar>
+                            </h:form>
+
+                            <p:outputPanel rendered="#{documentmodelView.detailSelected}">
+                                <ui:insert name="formBody" />
+                            </p:outputPanel>
+
+                            <p:spacer height="10px"/>
+                            <p:carousel numVisible="3" effect="easeInStrong" headerText="HISTORIAL"
+                                        style="margin-bottom:0" styleClass="myClass" responsive="true"
+                                        value="#{documentmodelView.selectedDocumentTransitions}" var="ut"
+                                        rendered="#{not empty documentmodelView.selectedDocumentTransitions}">
+                                <p:tab>
+                                    <h:panelGrid columns="2" cellpadding="4">
+                                        <h:outputText style="font-weight: bold; text-transform: capitalize;" value="#{ut.task.managedDocumentAction.actionName.toLowerCase()} por:" /><h:outputText value="" />
+                                        <h:outputText style="font-weight: bold" value="Nombres y Apellidos :" />
+                                        <h:outputLabel style="text-transform: capitalize;" value="#{ut.userCompleteName.toLowerCase()}" />
+                                        <h:outputText style="font-weight: bold" value="Fecha :" />
+                                        <h:outputLabel
+                                            value="#{of:formatDate(ut.transitionDate, 'dd/MM/yyyy - hh:mm:ss a')}" />
+                                        <h:outputText style="font-weight: bold" value="Comentario :" rendered="#{not empty ut.scomment}" />
+                                        <h:outputText escape="false" value="#{ut.scomment}" />
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:carousel>
+
+                            <script type="text/javascript">
+                                jQuery(document).ready(function () {
+                                    documentsClose('mgd_panel', 'documentsButton');
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+            </p:outputPanel>
+
+            <p:outputPanel rendered="#{not(documentmodelView.detailSelected)}">
+                <script type="text/javascript">
+                    jQuery(document).ready(function () {
+                        documentsShow('mgd_panel', 'documentsButton');
+                    });
+                </script>
+            </p:outputPanel>
+        </p:outputPanel>
+
+        <p:dialog id="confirmObservDialog" header="&#191;Confirma observar este documento?" widgetVar="confirmObservDialog" modal="true" 
+                  showEffect="fade" resizable="false" hideEffect="fade" responsive="true"
+                  appendTo="@(body)" focus="scomment">
+            <h:form prependId="false">
+                <p:messages escape="false" id="confirm-messages" />
+                <p:outputPanel id="confirmObservPanel" style="background-color: white; text-align: left;">
+                    <h:outputLabel for="scomment" value="Ingrese su observaci&#243;n" />
+                    <br />
+                    <p:editor  id="scomment" value="#{documentmodelView.userTransition.scomment}" width="600" />
+                    <br />
+                    <p:commandButton styleClass="GreenButton" icon="fa fa-comment-o" value="OK-#{documentmodelView.selectedTransition.managedDocumentAction.actionName}" actionListener="#{documentmodelView.addComment}" process="@form" update="document-detail documentosListForm @form" oncomplete="handleSubmit(xhr, status, args, 'confirmObservDialog')" />
+                    <p:commandButton styleClass="RedButton" icon="fa fa-undo" value="Cancelar" onclick="PF('confirmObservDialog').hide();" type="button" />
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog id="confirmEditDocumentDialog" header="&#191;Confirma editar este documento?" widgetVar="confirmEditDocumentDialog" modal="true" 
+                  showEffect="fade" resizable="false" hideEffect="fade" responsive="true"
+                  appendTo="@(body)" focus="scomment">
+            <h:form id="confirmEditDocumentForm" prependId="false">
+                <p:messages escape="false" id="confirm-editdocument-messages" />
+
+                <ui:insert name="confirmEditBody" />
+
+                <p:outputPanel style="background-color: white; text-align: left;">
+                    <p:commandButton styleClass="GreenButton" icon="fa fa-paper-plane" value="Continuar con la edici&#243;n" actionListener="#{documentmodelView.editDocument}" process="@form" update="document-detail documentosListForm @form" onstart="PF('statusDialog').show()" oncomplete="handleSubmit(xhr, status, args, 'confirmEditDocumentDialog')" />
+                    <p:commandButton styleClass="RedButton" icon="fa fa-undo" value="Cancelar" onclick="PF('confirmEditDocumentDialog').hide();" type="button" />
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+        <ui:include src="./creationDialog.xhtml" />
+
+    </ui:define>
+
+</ui:composition>

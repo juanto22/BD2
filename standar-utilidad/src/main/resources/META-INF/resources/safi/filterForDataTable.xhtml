@@ -1,0 +1,172 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:safi="http://www.mh.gob.sv.org/dinafi/jsf/safi">
+
+    <cc:interface componentType="sv.gob.mh.safi.uicomponent.filterForDataTable">
+        <cc:attribute name="dataTable" required="true" type="java.lang.String" shortDescription="El nombre del DataTable del elemento Filter del DataTable." />
+        <cc:attribute name="lazyModel" required="false" type="sv.gob.mh.safi.util.web.BaseLazyModel" shortDescription="El LazyModel a utiliza en el elemento Filter del DataTable." />
+    </cc:interface>
+
+    <cc:implementation>
+        <ui:param name="lazyModel" value="#{cc.attrs.lazyModel}" />
+        <ui:param name="id" value="#{cc.clientId}" />
+        <ui:param name="dataTable" value="#{cc.attrs.dataTable}" />
+        <ui:param name="cfilterSize" value="#{lazyModel.cfilters.size()}" />
+        <ui:param name="listSize" value="#{lazyModel.customFilters.size()}" />
+        <h:panelGroup id="_closebuttonpanel" >
+            <h:form>
+                <p:commandButton id="_openfilterbutton"  styleClass=" Fleft GrayButton RaisedButton" icon="fa fa-filter" rendered="#{cfilterSize le 0}" process="@this" actionListener="#{lazyModel.createFilter(dataTable)}" update="#{id}:_otroPanel #{id}:_closebuttonpanel" />
+                <p:commandButton id="_closefilterbutton"  styleClass=" Fleft RaisedButton" icon="fa fa-undo" rendered="#{cfilterSize ge 1}" process="@this"  actionListener="#{lazyModel.clearFilter()}" update="@form #{id}:_otroPanel #{cc.parent.clientId}:#{dataTable}"  />
+            </h:form>
+        </h:panelGroup>
+
+        <h:panelGroup id="_otroPanel" >
+            <h:form  rendered="#{lazyModel.cfilters!=null and cfilterSize>0}">
+                <p:dataTable rowIndexVar="rowIndex" rowKey="#{filtro.id}"  var="filtro" value="#{lazyModel.customFilters}" id="_ffiltro" emptyMessage="No se han agregado filtros">
+
+                    <p:column headerText="Operaci&#243;n">
+                        <h:outputText value="#{filtro.operatorType}"/>
+                    </p:column>
+                    <p:column headerText="Columna">
+                        <h:outputText value="#{filtro.label}"/>
+                    </p:column>
+
+                    <p:column headerText="Operador">
+                        <h:outputText value="#{filtro.operatorDescription}" />
+                    </p:column>
+
+                    <p:column headerText="Valor 1">
+                        <h:outputText value="#{filtro.value}" rendered="#{filtro.value !=null}" />
+                        <h:outputText value="#{filtro.fecha1}" rendered="#{filtro.fecha1 !=null}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Valor 2">
+                        <h:outputText value="#{filtro.value2}" rendered="#{filtro.value2 !=null}"/>
+                        <h:outputText value="#{filtro.fecha2}" rendered="#{filtro.fecha2 !=null}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton update="@form" process="_ffiltro" icon="fa fa-times-circle" styleClass=" Fright RedButton" title="Quitar" actionListener="#{lazyModel.removeFilter(filtro.id)}" />
+                    </p:column>
+                </p:dataTable>   
+
+                <p:messages id="messages"  autoUpdate="true" closable="true" />
+
+                <h:panelGrid columns="4" styleClass="ui-panelgrid-blank"  cellspacing="0">
+                    <h:panelGroup  rendered="#{listSize>0}">
+                        <h:panelGrid columns="1" cellspacing="0" >
+                            <p:outputLabel escape="false" for="_operacion" value="Operaci&#243;n" />
+
+                            <p:selectOneMenu id="_operacion" value="#{lazyModel.newCustomFilter.operatorType}" style="min-width: 25px; max-width: 25px; width: 25px;" >
+                                <f:selectItems value="#{lazyModel.operatorTypes}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <h:panelGrid columns="1" cellspacing="0">
+                            <p:outputLabel value="Columna" for="_campos"/> 
+
+                            <p:selectOneMenu id="_campos" value="#{lazyModel.newCustomFilter.name}"  style="min-width: 65px; max-width: 65px; width: 65px;" >
+                                <p:ajax process="@this" listener="#{lazyModel.onCamposChange}" update="_panelOperator _panelfilters"  />
+                                <f:selectItems value="#{lazyModel.cfilters}" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+
+
+                    <h:panelGroup id="_panelOperator">
+                        <h:panelGrid columns="1" cellspacing="0">
+                            <p:outputLabel value="Operador" for="_options" rendered="#{lazyModel.coptions!=null and lazyModel.coptions.size()>0}"/> 
+
+                            <p:selectOneMenu id="_options" value="#{lazyModel.newCustomFilter.operator}"  rendered="#{lazyModel.coptions!=null and lazyModel.coptions.size()>0}"  style="min-width: 65px; max-width: 65px; width: 65px;">
+                                <f:selectItems value="#{lazyModel.coptions}"/>        
+                                <p:ajax process="@this"  update="_panelfilters"  />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:panelGroup>
+
+                    <h:panelGrid columns="2" id="_panelfilters">
+                        <h:panelGroup rendered="#{lazyModel.filterType == 'String'}">
+                            <h:panelGrid columns="1" cellspacing="0">
+                                <p:outputLabel for="_value7" value="Valor 1" /> 
+
+                                <p:inputText id="_value7" value="#{lazyModel.newCustomFilter.value}" disabled="#{lazyModel.newCustomFilter.operator eq 'isFalse' || lazyModel.newCustomFilter.operator eq 'isTrue'}" required="true"  style="min-width: 50px; max-width: 50px; width: 50px;" />
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{lazyModel.filterType=='Calendar' || lazyModel.filterType=='Date'}">
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="1">
+                                    <p:outputLabel for="_fecha" value="Desde:" />
+                                    <p:calendar id="_fecha" value="#{lazyModel.newCustomFilter.fecha1}" maxdate="calwidget.today()" pattern="dd/MM/yyyy" mask="true" required="true"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1">
+                                    <p:outputLabel for="_fecha2" value="Hasta:" />
+                                    <p:calendar id="_fecha2" value="#{lazyModel.newCustomFilter.fecha2}" maxdate="calwidget.today()" pattern="dd/MM/yyyy" mask="true" disabled="#{lazyModel.newCustomFilter.operator ne 'between'}" required="#{lazyModel.newCustomFilter.operator eq 'between'}"/>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+
+                        <h:panelGroup rendered="#{lazyModel.filterType=='Integer' or lazyModel.filterType=='Long' or lazyModel.filterType=='Short'  }">
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="1" cellspacing="0">
+                                    <p:outputLabel for="_value1" value="Valor 1" /> 
+                                    <p:spinner id="_value1" value="#{lazyModel.newCustomFilter.value}" required="true" size="10" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" cellspacing="0">
+                                    <p:outputLabel for="_value2" value="Valor 2" /> 
+                                    <p:spinner id="_value2" value="#{lazyModel.newCustomFilter.value2}" disabled="#{lazyModel.newCustomFilter.operator ne 'between'}" required="#{lazyModel.newCustomFilter.operator eq 'between'}" size="10" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{lazyModel.filterType=='Double' or lazyModel.filterType=='Float' }">
+                            <h:panelGrid columns="2" cellspacing="0">
+                                <h:panelGrid columns="1" cellspacing="0">
+                                    <p:outputLabel for="_value3" value="Valor 1" /> 
+                                    <p:spinner id="_value3" value="#{lazyModel.newCustomFilter.value}"  stepFactor="0.25" required="true"  size="15" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" cellspacing="0">
+                                    <p:outputLabel for="_value4" value="Valor 2" /> 
+                                    <p:spinner id="_value4" value="#{lazyModel.newCustomFilter.value2}"  stepFactor="0.25" disabled="#{lazyModel.newCustomFilter.operator ne 'between'}" required="#{lazyModel.newCustomFilter.operator eq 'between'}"  size="15" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <h:panelGroup rendered="#{lazyModel.filterType!='Calendar' and lazyModel.filterType!='Date'  and lazyModel.filterType != 'boolean' and lazyModel.filterType != 'String' and lazyModel.filterType!='Integer' and lazyModel.filterType!='Long' and lazyModel.filterType!='Short' and lazyModel.filterType!='Double' and lazyModel.filterType!='Float' }">
+                            <h:panelGrid columns="2" cellspacing="0">
+                                <h:panelGrid columns="1" cellspacing="0">
+                                    <p:outputLabel for="_value5" value="Valor 1" /> 
+                                    <p:inputText id="_value5" value="#{lazyModel.newCustomFilter.value}" disabled="#{lazyModel.newCustomFilter.operator eq 'isFalse' || lazyModel.newCustomFilter.operator eq 'isTrue'}" required="true"  style="min-width: 50px; max-width: 50px; width: 50px;" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" cellspacing="0">
+                                    <p:outputLabel for="_value6" value="Valor 2" rendered="#{lazyModel.filterType != 'String'}"/> 
+                                    <p:inputText id="_value6" value="#{lazyModel.newCustomFilter.value2}" disabled="#{lazyModel.newCustomFilter.operator ne 'between'}" rendered="#{lazyModel.filterType != 'String'}"  style="min-width: 50px; max-width: 50px; width: 50px;" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:panelGroup>
+
+                        <h:panelGrid columns="2" cellspacing="0">
+                            <p:commandButton id="filtrar" icon="fa fa-plus White" styleClass=" Fright RaisedButton GreenButton" actionListener="#{lazyModel.capturarFiltro()}" process="@form"  update="@form"/>
+                            <p:commandButton id="_buscar" widgetVar="_buscar" icon="fa fa-search" styleClass=" Fright RaisedButton OrangeButton" actionListener="#{lazyModel.load()}" process="@this" update="#{cc.parent.clientId}:#{dataTable}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </h:panelGroup>
+    </cc:implementation>
+
+</ui:component>

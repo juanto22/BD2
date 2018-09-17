@@ -1,0 +1,43 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:safi="http://www.mh.gob.sv.org/dinafi/jsf/safi">
+
+    <cc:interface>
+        <cc:attribute name="width" required="false" shortDescription="Panel Width" />
+        <cc:attribute name="title" required="false" shortDescription="Title" />
+        <cc:attribute name="subtitle" required="false" shortDescription="Subtitle" />
+        <cc:attribute name="icon" required="false" shortDescription="Icon" />
+        <cc:attribute name="space" required="false" shortDescription="Space" />
+        <cc:attribute name="styleClass" required="false" shortDescription="StyleClass" />
+        <cc:attribute name="responsiveClass" required="false" shortDescription="ResponsiveClass" />
+    </cc:interface>
+
+    <cc:implementation>
+        <ui:param name="width" value="#{cc.attrs.width!=null?cc.attrs.width:'100'}" />
+        <ui:param name="space" value="#{cc.attrs.space!=null?cc.attrs.space:'20'}" />
+        <ui:param name="icon" value="#{cc.attrs.icon!=null?cc.attrs.icon:''}" />
+        <ui:param name="responsiveClass" value="#{cc.attrs.responsiveClass!=null?cc.attrs.responsiveClass:'Responsive100'}" />
+        <p:outputPanel id="${cc.clientId}"  rendered="#{cc.attrs.rendered}">
+            <div class="Container#{width} #{responsiveClass}">
+                <div  class="Container100">
+                    <div  class="ContainerIndent">
+                        <div  class="Card #{styleClass}">
+                            <safi:cardTopic  title="#{cc.attrs.title}" subtitle="#{cc.attrs.subtitle}" icon="#{icon}" rendered="#{cc.attrs.title!=null}" />
+                            <div class="SeparatorFull"></div>
+                            <cc:insertChildren />
+                            <h:panelGroup rendered="#{space!=null and space!=''}">
+                                <div  class="EmptyBox#{space}"></div>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p:outputPanel>
+    </cc:implementation>
+
+</ui:component>

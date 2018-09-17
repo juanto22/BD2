@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	
+	<groupId>com.stack.project</groupId>
+    <artifactId>stack-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+	
+	<name>Java EE Stack Project</name>
+    <description>Plantilla creada por Mauricio Saca</description>
+	
+	<modules>
+		<module>standar-web</module>
+		<module>standar-comun</module>
+		<module>standar-utilidad</module>
+	</modules>
+	
+	<properties>
+	
+		<!-- App Environment -->
+        <app.groupId>com.stack.project</app.groupId>
+        <app.version>1.0-SNAPSHOT</app.version>
+        <app.groupId.child>com.stack.project</app.groupId.child>
+        <app.version.child>1.0-SNAPSHOT</app.version.child>
+        
+        <!-- use UTF-8 for everything -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- maven-compiler-plugin -->
+        <java.compiler.source>1.8</java.compiler.source>
+        <java.compiler.target>1.8</java.compiler.target>
+        
+         <!-- Front-End JSF & Primefaces -->
+        <primefaces.version>6.0</primefaces.version>
+
+        <!--All Themes Primefaces -->
+        <primefaces-all-themes.version>1.0.10</primefaces-all-themes.version>
+
+        <!-- Primefaces Extensions -->
+        <primefaces-extensions.version>4.0.0</primefaces-extensions.version>
+
+        <!-- Omnifaces -->
+        <omnifaces.version>2.1</omnifaces.version>
+
+        <!--Spring Version -->
+        <spring.version>4.1.6.RELEASE</spring.version>
+
+        <!--Spring Security Versión -->
+        <spring-security.version>4.0.1.RELEASE</spring-security.version>
+
+        <!--Spring Data Versión -->
+        <spring-data.version>1.9.0.RELEASE</spring-data.version>
+
+        <!--Spring LDAP Versión -->
+        <spring-ldap.version>2.0.2.RELEASE</spring-ldap.version>
+
+        <!--Spring Integration Versión -->
+        <spring-integration.version>4.1.3.RELEASE</spring-integration.version>
+
+        <!--Query DSL Version -->
+        <querydsl.version>3.6.9</querydsl.version>
+
+        <!--Hibernate Version -->
+        <hibernate.version>4.3.9.Final</hibernate.version>
+
+        <!--Hibernate Commons Anotations Version -->
+        <hibernate-commons-annotations.version>4.0.5.Final</hibernate-commons-annotations.version>
+
+        <!-- Oracle -->
+        <oracle.version>12.1.0.2</oracle.version>
+
+        <!-- Java Mail -->
+        <javax-mail.version>1.5.3</javax-mail.version>
+        
+    	<!-- PicketLink dependency versions -->
+    	<version.picketlink.javaee.bom>2.7.1.Final</version.picketlink.javaee.bom>
+
+	
+	</properties>
+	
+	 <!-- Inherited Dependencies -->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Depentencias -->
+  
+            <!-- PrimeFaces -->
+            
+<!--              <dependency> -->
+<!--                 <groupId>org.primefaces</groupId> -->
+<!--                 <artifactId>adamantium-theme</artifactId> -->
+<!--                 <version>2.0</version> -->
+<!--             </dependency> -->
+            
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>${primefaces.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- PrimeFaces Themes -->
+            <dependency>
+                <groupId>org.primefaces.themes</groupId>
+                <artifactId>all-themes</artifactId>
+                <version>${primefaces-all-themes.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- PrimeFaces Extensions -->
+            <dependency>
+                <groupId>org.primefaces.extensions</groupId>
+                <artifactId>primefaces-extensions</artifactId>
+                <version>${primefaces-extensions.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.primefaces.extensions</groupId>
+                <artifactId>resources-ckeditor</artifactId>
+                <version>${primefaces-extensions.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces.extensions</groupId>
+                <artifactId>resources-codemirror</artifactId>
+                <version>${primefaces-extensions.version}</version>
+            </dependency>
+
+            <!-- OmniFaces -->
+            <dependency>
+                <groupId>org.omnifaces</groupId>
+                <artifactId>omnifaces</artifactId>
+                <version>${omnifaces.version}</version>
+            </dependency>
+            
+            <!-- Dependency Management for PicketLink and Java EE 6.0. -->
+	      <dependency>
+	        <groupId>org.picketlink</groupId>
+    		<artifactId>picketlink-javaee-7.0</artifactId>
+	        <version>${version.picketlink.javaee.bom}</version>
+	        <scope>import</scope>
+	        <type>pom</type>
+	      </dependency>
+
+            <!-- Spring Context -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring Core -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring AOP -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring Expression -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring orm -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring tx -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring jdbc -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring aspects -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aspects</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring Data Jpa -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${spring-data.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring Integration mail -->
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-mail</artifactId>
+                <version>${spring-integration.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <!-- Spring web -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Spring Ldap -->
+            <dependency>
+                <groupId>org.springframework.ldap</groupId>
+                <artifactId>spring-ldap-core</artifactId>
+                <version>${spring-ldap.version}</version>
+            </dependency>
+
+            <!-- Spring Security Web -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+
+            <!-- Spring Security Config -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+
+            <!-- Spring Security Tag Libs -->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-taglibs</artifactId>
+                <version>${spring-security.version}</version>
+            </dependency>
+
+
+            <!-- Query DSL Apt -->
+            <dependency>
+                <groupId>com.mysema.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>${querydsl.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Query DSL Jpa -->
+            <dependency>
+                <groupId>com.mysema.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.14.8</version>
+            </dependency>
+
+            <!-- CDI -->
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>1.2</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Annotation -->
+            <!-- <dependency> -->
+            <!-- <groupId>org.jboss.spec.javax.annotation</groupId> -->
+            <!-- <artifactId>jboss-annotations-api_1.2_spec</artifactId> -->
+            <!-- <scope>provided</scope> -->
+            <!-- </dependency> -->
+
+            <!-- Servlet -->
+            <dependency>
+                <groupId>org.jboss.spec.javax.servlet</groupId>
+                <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+                <version>1.0.0.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- ws.rs -->
+            <!-- <dependency> -->
+            <!-- <groupId>org.jboss.spec.javax.ws.rs</groupId> -->
+            <!-- <artifactId>jboss-jaxrs-api_2.0_spec</artifactId> -->
+            <!-- <scope>provided</scope> -->
+            <!-- </dependency> -->
+
+            <!-- JSF Api -->
+            <dependency>
+                <groupId>org.jboss.spec.javax.faces</groupId>
+                <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+                <version>2.2.11</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- JBoss EJB -->
+            <dependency>
+                <groupId>org.jboss.spec.javax.ejb</groupId>
+                <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+                <version>1.0.0.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- El Api -->
+            <dependency>
+                <groupId>org.jboss.spec.javax.el</groupId>
+                <artifactId>jboss-el-api_2.2_spec</artifactId>
+                <version>1.0.4.Final</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- El Api -->
+            <!-- <dependency> -->
+            <!-- <groupId>javax.el</groupId> -->
+            <!-- <artifactId>el-api</artifactId> -->
+            <!-- <version>2.2</version> -->
+            <!-- <scope>compile</scope> -->
+            <!-- </dependency> -->
+
+
+
+            <!-- Hibernate Commons Annotations -->
+            <!-- <dependency> -->
+            <!-- <groupId>org.hibernate</groupId> -->
+            <!-- <artifactId>hibernate-commons-annotations</artifactId> -->
+            <!-- <version>${hibernate-commons-annotations.version}</version> -->
+            <!-- <scope>provided</scope> -->
+            <!-- </dependency> -->
+
+            <!-- Hibernate Core -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Hibernate Entitymanager -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Hibernate Jpa -->
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>1.0.0.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Hibernate Validator -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>4.3.2.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Hibernate validator-annotation-processor -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator-annotation-processor</artifactId>
+                <version>4.3.2.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Auditing -->
+            <!--Hibernate Envers -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-envers</artifactId>
+                <version>${hibernate.version}</version>
+                <scope>provided</scope>
+            </dependency>
+			
+			<!-- For mail -->
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-email</artifactId>
+			    <version>1.3.1</version>
+			</dependency>
+
+            <!-- Joda Time -->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.7</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- Auditing -->
+
+            <!-- Javax Validator -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.1.0.Final</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Javassist -->
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>3.18.1-GA</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!-- Commons lang -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.3.2</version>
+            </dependency>
+
+
+
+            <!-- slf4j log4j12 -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.9</version>
+            </dependency>
+
+            <!-- Mvel -->
+            <dependency>
+                <groupId>org.mvel</groupId>
+                <artifactId>mvel2</artifactId>
+                <version>2.2.2.Final</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <!-- Java Mail -->
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>javax.mail-api</artifactId>
+                <version>${javax-mail.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>1.3.1</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>6.1.0</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports-functions</artifactId>
+                <version>6.1.0</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>3.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.picketbox</groupId>
+                <artifactId>picketbox</artifactId>
+                <version>4.1.1.Final-redhat-1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Test -->
+
+            <!-- Junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.11</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Spring Test -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+            <!-- Arquillian Test -->
+            <!-- <dependency> -->
+            <!-- <groupId>org.jboss.arquillian.junit</groupId> -->
+            <!-- <artifactId>arquillian-junit-container</artifactId> -->
+            <!-- <scope>test</scope> -->
+            <!-- </dependency> -->
+            <!-- <dependency> -->
+            <!-- <groupId>org.jboss.arquillian.protocol</groupId> -->
+            <!-- <artifactId>arquillian-protocol-servlet</artifactId> -->
+            <!-- <scope>test</scope> -->
+            <!-- </dependency> -->
+
+            <!-- Oracle Driver -->
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc7</artifactId>
+                <version>${oracle.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>uk.com.robust-it</groupId>
+                <artifactId>cloning</artifactId>
+                <version>1.9.2</version>
+            </dependency>
+
+            <!-- JBOSS-version of infinispan -->
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-core</artifactId>
+                <version>5.2.11.Final</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+	
+	<build>
+        <!-- Set the name of the war, used as the context root when the app is 
+        deployed. -->
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Maven Java Compiler -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
+                <configuration>
+                    <source>${java.compiler.source}</source>
+                    <target>${java.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- JBoss -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.5.Final</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <!--<skip>true</skip> -->
+                    <force>true</force>
+                    <username>${userDeploy}</username>
+                    <password>${pwdDeploy}</password>
+                    <hostname>${hostDeploy}</hostname>
+                    <port>9999</port>
+                    <domain>
+                        <server-groups>
+                            <server-group>STACK</server-group>
+                        </server-groups>
+                        <profiles>
+                            <profile>full-ha</profile>
+                        </profiles>
+                    </domain>
+                </configuration>
+            </plugin>
+
+            <!-- JRebel -->
+            <plugin>
+                <groupId>org.zeroturnaround</groupId>
+                <artifactId>jrebel-maven-plugin</artifactId>
+                <version>1.1.5</version>
+                <executions>
+                    <execution>
+                        <id>generate-rebel-xml</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+			<!-- QueryDsl Generate Classes -->
+            <plugin>
+                <groupId>com.mysema.maven</groupId>
+                <artifactId>apt-maven-plugin</artifactId>
+                <version>1.1.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-sources/java</outputDirectory>
+                            <processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+	
+</project>

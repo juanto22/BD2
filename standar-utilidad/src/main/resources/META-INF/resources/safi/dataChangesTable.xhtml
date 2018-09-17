@@ -1,0 +1,58 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions">
+
+	<cc:interface>
+		<cc:attribute name="dataCambiosFromController" required="true"/>
+		<cc:attribute name="concreteColumnsFromController" required="true"/>
+		<cc:attribute name="vigenciaColumnsFromController" required="true"/>
+	</cc:interface>
+
+	<cc:implementation>
+
+		<h:panelGrid columns="2" cellpadding="5">
+        <p:panelGrid columns="1" styleClass="estiloGrid" columnClasses="vertical-top claseTabla, claseTabla" id="dataTableReloadCambios">
+			<p:dataTable var="dataCambios" rowIndexVar="a" emptyMessage="#{safiCommonBundle.noRecordsFound}"
+				value="#{cc.attrs.dataCambiosFromController}" rows="5"
+				editable="true" rowKey="#{dataCambios}" paginator="true"				
+				paginatorPosition="bottom"
+				
+				
+				rowsPerPageTemplate="5,10,15,20,30" selectionMode="single">
+
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column rowspan="2" headerText="Código" />
+						<p:column rowspan="2" headerText="Descripción" />
+						<p:columns style="width: #{dataColumn.width};"
+							rendered="#{dataColumn.header != 'ID' &amp;&amp; dataColumn.header != 'STATUS'}"
+							rowspan="2" var="dataColumn"
+							value="#{cc.attrs.concreteColumnsFromController}"
+							columnIndexVar="i" headerText="#{dataColumn.header}" />
+						<p:column colspan="3" headerText="Vigente" />
+					</p:row>
+					<p:row>
+						<p:columns var="vigenciaColumns"
+							style="width: #{vigenciaColumns.width};"
+							value="#{cc.attrs.vigenciaColumnsFromController}"
+							columnIndexVar="i" headerText="#{vigenciaColumns.header}" />
+					</p:row>
+				</p:columnGroup>
+
+				<p:columns
+					rendered="#{column.header != 'ID' &amp;&amp; column.header != 'STATUS'}"
+					var="column" value="#{cc.attrs.dataCambiosFromController[0]}"
+					columnIndexVar="i" headerText="#{column.header}">
+ 					        #{dataCambios[i].property}
+				</p:columns>
+			</p:dataTable>
+		</p:panelGrid>
+		</h:panelGrid>
+
+	</cc:implementation>
+
+</ui:component>

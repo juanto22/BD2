@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog header="Crear Grupo" widgetVar="groupDialog" id="groupDialog" modal="true"
+				  showEffect="blind" resizable="false" hideEffect="blind" width="35%"
+				  visible=""
+				  appendTo="@(body)" responsive="true">
+				<h:form id="createUpdateGroupForm">
+				
+					<p:panelGrid columns="2" columnClasses="property, val" id="panelSend" style="width: 100%; font-size:16px !important;"
+						rendered="#{groupView.newGroup != null or groupView.groupSelected != null}">
+						
+						
+						<p:outputLabel value="Nombre del grupo:" for="cmbNombreGrupo" />
+						<h:panelGroup rendered="#{groupView.status.code == 1}">
+							<p:selectOneMenu id="cmbNombreGrupo"
+								value="#{groupView.newGroup.name}" required="true"
+								requiredMessage="seleccinar el grupo">
+								<f:selectItem itemValue="" itemLabel="Seleccionar grupo" />
+								<f:selectItems value="#{groupView.applicationGroups}" var="group"
+									itemValue="#{group.code}" itemLabel="#{group.description}" />
+							</p:selectOneMenu>
+							<p:message for="cmbNombreGrupo" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{groupView.status.code == 2}">
+							<p:inputText 
+								disabled="true"
+								value="#{groupView.getName(groupView.groupSelected.name)}" />
+						</h:panelGroup>
+				
+						<p:outputLabel value="Fecha de expiracion:" for="vigenteHasta"/>
+						<h:panelGroup rendered="#{groupView.status.code == 1}">
+							<p:calendar 
+								id="vigenteHasta" 
+								value="#{groupView.newGroup.expirationDate}"
+								pattern="dd/MM/yyyy" 
+								mask="true" 
+								navigator="true"
+								locale="es" />
+							<p:message for="vigenteHasta" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{groupView.status.code == 2}">
+							<p:calendar 
+								id="vigenteHastaUpdate" 
+								value="#{groupView.groupSelected.expirationDate}"
+								pattern="dd/MM/yyyy" 
+								mask="true" 
+								navigator="true"
+								locale="es" />
+							<p:message for="vigenteHasta" />
+						</h:panelGroup>
+					
+					</p:panelGrid>
+				<p:spacer height="10" />
+				<p:separator/>
+				<center>
+					<p:outputPanel style="width: 100%; font-size:16px !important;">
+	
+						<p:commandButton
+							actionListener="#{groupView.saveGroup}"
+							value="#{safiCommonBundle.Save}"
+							update=":registerGroupForm:groupTable :createUpdateGroupForm"
+							oncomplete="PF('groupDialog').hide();"
+							validateClient="true"
+							rendered="#{groupView.status.code ==  1}">
+							<p:confirm header="#{safiCommonBundle.ConfirmationHeader}"
+								message="#{safiCommonBundle.ConfirmCreateMessage}" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:commandButton
+							actionListener="#{groupView.updateGroup}"
+							value="Actualizar"
+							update=":registerGroupForm:groupTable :createUpdateGroupForm"
+							oncomplete="PF('groupDialog').hide();"
+							validateClient="true"
+							rendered="#{groupView.status.code ==  2}">
+							<p:confirm header="#{safiCommonBundle.ConfirmationHeader}"
+								message="#{safiCommonBundle.ConfirmCreateMessage}" icon="ui-icon-alert" />
+						</p:commandButton>
+					
+						<p:spacer width="7" />
+						<p:commandButton id="cancelButton" value="#{safiCommonBundle.Cancel}"
+							oncomplete="PF('groupDialog').hide();"
+							process="@this">
+							<p:resetInput target="createUpdateGroupForm" />
+						</p:commandButton>
+					</p:outputPanel>
+				</center>
+			</h:form>
+		</p:dialog>
+	
+    </ui:composition>
+</html>

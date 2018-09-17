@@ -1,0 +1,71 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:of="http://omnifaces.org/functions">
+
+    <cc:interface>
+        <cc:attribute name="documentoClasificadorObject"/>
+        <cc:attribute name="documentoClasificadorListFooter"/>
+    </cc:interface>
+
+    <cc:implementation>         
+        <style type="text/css">
+            .myClass {
+                width: 100% !important;
+            }
+
+            .myClass .ui-carousel-viewport {
+                width: 100% !important;
+            }
+
+            .ui-carousel .ui-carousel-header {
+                margin: 0 1px !important;
+                /* 	height: 14px !important; */
+                overflow: hidden !important;
+                /* padding-top: 7px; */
+                padding-bottom: 4px !important;
+                padding-right: 10px !important;
+                padding-left: 10px !important;
+
+                border: 1px solid #4297d7;
+                background: #0288d1;
+                font-weight: bold;
+                
+                text-align: center;
+            }
+
+            .ui-carousel .ui-carousel-viewport ul li {
+                margin: 1px;
+                padding: 0;
+                float: left;
+                width: 1.6%;
+            }
+
+            /*  .myClass .ui-carousel-page-links{ display: none; } */
+        </style>
+        <p:spacer height="10px"/>
+        <p:carousel numVisible="3" effect="easeInStrong" headerText="HISTORIAL"
+                    style="margin-bottom:0" styleClass="myClass"
+                    value="#{cc.attrs.documentoClasificadorListFooter}" var="f"
+                    rendered="#{not empty cc.attrs.documentoClasificadorObject}">
+            <p:tab>
+                <h:panelGrid columns="2" cellpadding="4">
+                    <h:outputText style="font-weight: bold; text-transform: capitalize;" value="#{f.etapa.nombre.toLowerCase()} por:" /><h:outputText value="" />
+                    <h:outputText style="font-weight: bold" value="Nombres y Apellidos :" />
+                    <h:outputLabel style="text-transform: capitalize;" value="#{f.usuario.nombre.toLowerCase()} #{f.usuario.primerApellido.toLowerCase()} #{f.usuario.segundoApellido.toLowerCase()}" />
+                    <h:outputText style="font-weight: bold" value="Fecha :" />
+                    <h:outputLabel
+                        value="#{of:formatDate(f.fechaEtapa, 'dd/MM/yyyy - hh:mm:ss a')}" />
+                    <h:outputText style="font-weight: bold" value="Comentario :" rendered="#{not empty f.comentario}" />
+                    <h:outputLabel value="#{f.comentario}" />
+                </h:panelGrid>
+            </p:tab>
+        </p:carousel>
+    </cc:implementation>
+
+</ui:component>

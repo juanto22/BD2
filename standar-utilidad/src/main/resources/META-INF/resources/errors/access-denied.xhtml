@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+         <title>#{safiCommonBundle.AppName2}</title>
+        <ui:insert name="head" />
+    </h:head>
+
+    <h:body>
+        
+        <div class="Container100 BordBottom GrayBack loginback">
+            <div class="EmptyBox50"></div>
+            
+            <div class="Wid90 MarAuto">
+                <div class="Wid30 DispBlock MarAuto WidAutoOnMobile">
+                    <div class="Card TexAlCenter" style="margin-bottom:-100px;">
+                        <div class="Card SoftGrayBack">
+                            <div class="EmptyBox20"></div>
+                            <i class="icon-lamp DispBlock Fs100 Purple"></i>
+                            <div class="EmptyBox30"></div>
+                            <div class="Wid100 Fs30 FontAdamantiumBold Purple MarAuto">Accesso Denegado <br/> Por Favor Revisa tus Permisos !</div>
+                            <div class="EmptyBox10"></div>
+                            <div class="Wid80 Fs18 FontAdamantiumRegular Fnone MarAuto">Lo Sentimos, Pero Tu no tienes Acceso a esta Pagina.</div>
+                        </div>
+                        <div class="Separator"></div>
+                        <p:button value="Regresar a la Pagina Principal" icon="fa fa-sign-in" href="/index.xhtml" styleClass="PurpleButton"/>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="EmptyBox10"></div>
+        </div>
+        
+        <h:outputStylesheet name="css/core-layout.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/animate.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/adamantium-font.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/ripple-effect.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/font-awesome.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/adamantium-layout.css" library="adamantium-layout" />
+    </h:body>
+
+</html>

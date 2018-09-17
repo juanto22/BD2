@@ -1,0 +1,125 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <cc:interface>
+        <cc:attribute name="batch" default="AMB" />
+        <cc:attribute name="documentosList" default=""/>
+        <cc:attribute name="documento" default=""/>        
+		<cc:attribute name="pageToRefresh" default="#{request.contextPath}/entity/disenoClasificador/documento.xhtml"/>
+        <cc:attribute name="controller" default=""/>
+    </cc:interface>
+
+    <cc:implementation>
+		<h:form id="etapaForm">
+			<c:choose>
+				<c:when test="#{not empty cc.attrs.documentosList}">
+	<!--        			La taglib cuando se seleccionan varios documentos -->       			
+
+							<p:outputPanel id="panelBotonesEtapaTaglib">
+								<f:event type="preRenderComponent" listener="#{cc.attrs.controller.getTransicionesByDocList(cc.attrs.documentosList)}" />
+								<ui:param name="transiciones" value="#{cc.attrs.controller.transiciones}" />
+								<ui:repeat var="transicion" value="#{transiciones}" rendered="#{not empty cc.attrs.documentosList}">
+									<p:commandButton 
+										update=":#{p:component('panelBotonesEtapaTaglib')} :#{p:component('onSuccessDialog')}" 
+										action="#{cc.attrs.controller.aplicarTransicionByDocList(cc.attrs.documentosList,transicion,'',cc.attrs.pageToRefresh)}" 
+										value="#{transicion.nombre}"
+										process="@this" 
+										rendered="#{!transicion.etapaFinal.permiteComentarios and (transicion.etapaFinal.batch.code=='AMB' or transicion.etapaFinal.batch.code==cc.attrs.batch)}"
+										ajax="true">										
+										<p:confirm header="Confirmación" message="¿Confirma que desea aplicar la transición?" icon="ui-icon-alert" />
+									</p:commandButton>
+									<p:commandButton 
+										onclick="PF('dlgComentario#{transicion.nombre}').show();" 
+										value="#{transicion.nombre}" 
+										rendered="#{transicion.etapaFinal.permiteComentarios and (transicion.etapaFinal.batch.code=='AMB' or transicion.etapaFinal.batch.code==cc.attrs.batch)}" />
+									<p:dialog id="comentDialog" header="Por favor, agrege un comentario." widgetVar="dlgComentario#{transicion.nombre}"  minHeight="150" minWidth="100" modal="true">
+										<p:inputTextarea counter="display" counterTemplate="{0} Caracteres Restantes." binding="#{comentario}" cols="100" maxlength="255"/>
+										<br/>
+										<h:outputText id="display" />
+										<br />
+										<br />
+										<p:commandButton  
+											
+											update=":#{p:component('panelBotonesEtapaTaglib')} :#{p:component('onSuccessDialog')}" 
+											process="@this :#{p:component('comentDialog')}"
+											action="#{cc.attrs.controller.aplicarTransicionByDocList(cc.attrs.documentosList,transicion,comentario.value,cc.attrs.pageToRefresh)}" 
+											value="#{transicion.nombre}"
+											ajax="true">											
+											<p:confirm header="Confirmación" message="¿Confirma que desea aplicar la transición?" icon="ui-icon-alert" />
+										</p:commandButton>				                    
+									</p:dialog>
+								</ui:repeat>
+							</p:outputPanel>
+
+					
+				</c:when>
+				<c:when test="#{not empty cc.attrs.documento}">
+	<!--        			La taglib cuando se selecciona un solo documento -->    		
+
+							<p:outputPanel id="panelBotonesEtapaTaglib">
+								<f:event type="preRenderComponent" listener="#{cc.attrs.controller.getTransicionesByDoc(cc.attrs.documento)}" />
+								<ui:param name="transiciones" value="#{cc.attrs.controller.transiciones}" />
+								<ui:repeat var="transicion" value="#{transiciones}" rendered="#{not empty cc.attrs.documento}">
+									<p:commandButton 
+										update=":#{p:component('panelBotonesEtapaTaglib')} :#{p:component('onSuccessDialog')}" 
+										action="#{cc.attrs.controller.aplicarTransicionByDoc(cc.attrs.documento,transicion,'',cc.attrs.pageToRefresh)}" 
+										value="#{transicion.nombre}" 
+										process="@this" 
+										rendered="#{!transicion.etapaFinal.permiteComentarios and (transicion.etapaFinal.batch.code=='AMB' or transicion.etapaFinal.batch.code==cc.attrs.batch)}"
+										ajax="true">
+										<p:confirm header="Confirmación" message="¿Confirma que desea aplicar la transición?" icon="ui-icon-alert" />
+									</p:commandButton>
+									<p:commandButton 
+										onclick="PF('dlgComentario#{transicion.nombre}').show();" 
+										value="#{transicion.nombre}" 
+										rendered="#{transicion.etapaFinal.permiteComentarios and (transicion.etapaFinal.batch.code=='AMB' or transicion.etapaFinal.batch.code==cc.attrs.batch)}" />
+									<p:dialog id="comentDialog" header="Por favor, agrege un comentario." widgetVar="dlgComentario#{transicion.nombre}" minHeight="150" minWidth="100" modal="true">
+										<p:inputTextarea counter="display" counterTemplate="{0} Caracteres Restantes." binding="#{comentario}" cols="100" maxlength="255"/>
+										<br/>
+										<h:outputText id="display" />
+										<br />
+										<br />
+										<p:commandButton  
+											
+											update=":#{p:component('panelBotonesEtapaTaglib')} :#{p:component('onSuccessDialog')}"
+											process="@this :#{p:component('comentDialog')}" 
+											action="#{cc.attrs.controller.aplicarTransicionByDoc(cc.attrs.documento,transicion,comentario.value,cc.attrs.pageToRefresh)}" 
+											value="#{transicion.nombre}"
+											ajax="true">											
+											<p:confirm header="Confirmación" message="¿Confirma que desea aplicar la transición?" icon="ui-icon-alert" />
+										</p:commandButton>				                    
+									</p:dialog>
+								</ui:repeat>
+							</p:outputPanel>				        					    	
+
+				</c:when>
+				<c:otherwise>
+					
+				</c:otherwise>
+			</c:choose>
+		
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+			
+			
+			<p:dialog id="onSuccessDialog" header="Información" closable="false" modal="true" visible="#{cc.attrs.controller.etapaAplicada}" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputLabel value="La transición fue aplicada satisfactoriamente." />  
+				<br/><br/>
+				<p align="center">
+					<p:commandButton process="@this" value="Aceptar" icon="ui-icon-check" action="#{cc.attrs.controller.refreshView(cc.attrs.pageToRefresh)}" />
+				</p>		    	
+		    </p:dialog>
+			
+		</h:form>			 
+        
+    </cc:implementation>
+
+</ui:component>

@@ -1,0 +1,29 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui">
+
+    <cc:interface>
+        <cc:attribute name="title" required="required" shortDescription="Title" />
+        <cc:attribute name="subtitle" required="false" shortDescription="Subtitle" />
+        <cc:attribute name="icon" required="false" shortDescription="Icon" />
+    </cc:interface>
+
+    <cc:implementation>
+        <ui:param name="icon" value="#{cc.attrs.icon!=null?cc.attrs.icon:''}" />
+
+        <p:outputPanel id="${cc.clientId}"  rendered="#{cc.attrs.rendered}">
+            <div id="${cc.clientId}-div" class="CardTopic"> 
+                <i class="#{icon} Fs30 Fleft MarRight10"></i>
+                <div class="EmptyBox10 ShowOnMobile"></div>
+                #{cc.attrs.title}<br/>
+                <span class="CardSubTopic">#{cc.attrs.subtitle}</span> 
+            </div>
+            <div id="#{cc.clientId}-emptybox" class="EmptyBox20"></div>
+        </p:outputPanel>
+    </cc:implementation>
+
+</ui:component>

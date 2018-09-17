@@ -1,0 +1,28 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:p="http://primefaces.org/ui">
+
+    <!--<cc:interface componentType="sv.gob.mh.safi.uicomponent.download">-->
+    <cc:interface>
+        <cc:attribute method-signature="void actionListener(javax.faces.event.ActionEvent)" name="actionListener"/>
+
+        <cc:attribute name="label" required="false" type="java.lang.String" shortDescription="El Texto para el Reporte a utilizar." />
+        <cc:attribute name="icon" required="false" type="java.lang.String" shortDescription="El Icono para el Reporte a utilizar." />
+    </cc:interface>
+
+    <cc:implementation>
+        <ui:param name="label" value="#{cc.attrs.label!=null?cc.attrs.label:'Descargar'}" />
+        <ui:param name="icon" value="#{cc.attrs.icon!=null?cc.attrs.icon:'fa fa-file-pdf-o'}" />
+        <span id="#{cc.clientId}">
+
+            <p:splitButton icon="#{icon}" title="Reporte de #{label}"  value="#{label} (PDF)" actionListener="#{cc.attrs.actionListener}" ajax="false" onclick=" jQuery(jQuery('span##{cc.clientId.replaceAll(':','\\\\\\\\:')}')[0]).parents('form')[0].target = '_self'"  >
+                <p:menuitem icon="fa fa-file-excel-o"  title="#{label} (MS-Excel)"  value="XLS" actionListener="#{cc.attrs.actionListener}" ajax="false" onclick=" jQuery(jQuery('span##{cc.clientId.replaceAll(':','\\\\\\\\:')}')[0]).parents('form')[0].target = '_self'" />
+                <p:menuitem icon="fa fa-file-word-o" title="#{label}  (MS-Word)" value="DOC" actionListener="#{cc.attrs.actionListener}" ajax="false" onclick=" jQuery(jQuery('span##{cc.clientId.replaceAll(':','\\\\\\\\:')}')[0]).parents('form')[0].target = '_self'" />
+                <p:menuitem icon="fa fa-file-code-o" title="#{label}  (HTML)" value="HTML" actionListener="#{cc.attrs.actionListener}" ajax="false" onclick=" jQuery(jQuery('span##{cc.clientId.replaceAll(':','\\\\\\\\:')}')[0]).parents('form')[0].target = '_blank'"/>
+            </p:splitButton>
+        </span>
+    </cc:implementation>
+
+</ui:component>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+    <fontFamily name="Arial">
+        <normal><![CDATA[fonts/arial.ttf]]></normal>
+        <bold><![CDATA[fonts/arialbd.ttf]]></bold>
+        <italic><![CDATA[fonts/ariali.ttf]]></italic>
+        <boldItalic><![CDATA[fonts/arialbi.ttf]]></boldItalic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+    
+    <fontFamily name="Arial Narrow">
+        <normal><![CDATA[fonts/ARIALN.TTF]]></normal>
+        <bold><![CDATA[fonts/ARIALNB.TTF]]></bold>
+        <italic><![CDATA[fonts/ARIALNI.TTF]]></italic>
+        <boldItalic><![CDATA[fonts/ARIALNBI.TTF]]></boldItalic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+    <fontFamily name="Verdana">
+        <normal><![CDATA[fonts/verdana.ttf]]></normal>
+        <bold><![CDATA[fonts/verdanabd.ttf]]></bold>
+        <italic><![CDATA[fonts/verdanai.ttf]]></italic>
+        <boldItalic><![CDATA[fonts/verdanaz.ttf]]></boldItalic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+    <fontFamily name="Futura MdCn BT">
+        <normal><![CDATA[fonts/futura-mdcn-bt-medium.ttf]]></normal>
+        <italic><![CDATA[fonts/futura-mdcn-bt-italic.ttf]]></italic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+</fontFamilies>
+

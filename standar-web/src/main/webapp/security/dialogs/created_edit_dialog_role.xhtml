@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog header="Crear rol" widgetVar="roleDialog" id="roleDialog" modal="true"
+				  showEffect="blind" resizable="false" hideEffect="blind" width="35%"
+				  visible=""
+				  appendTo="@(body)" responsive="true">
+				<h:form id="createUpdateRoleForm">
+				
+					<p:panelGrid columns="2" columnClasses="property, val" id="panelSend" style="width: 100%; font-size:16px !important;"
+						rendered="#{roleView.newRole != null or roleView.roleSelected != null}">
+						
+						
+						<p:outputLabel value="Nombre del role:" for="cmbNombreRole" />
+						<h:panelGroup rendered="#{roleView.status.code == 1}">
+							<p:selectOneMenu id="cmbNombreRole"
+								value="#{roleView.newRole.name}" required="true"
+								requiredMessage="seleccinar el rol">
+								<f:selectItem itemValue="" itemLabel="Seleccionar rol" />
+								<f:selectItems value="#{roleView.applicationRoles}" var="rol"
+									itemValue="#{rol.code}" itemLabel="#{rol.description}" />
+							</p:selectOneMenu>
+							<p:message for="cmbNombreRole" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{roleView.status.code == 2}">
+							<p:inputText 
+								disabled="true"
+								value="#{roleView.getName(roleView.roleSelected.name)}" />
+						</h:panelGroup>
+				
+						<p:outputLabel value="Fecha de expiracion:" for="vigenteHasta"/>
+						<h:panelGroup rendered="#{roleView.status.code == 1}">
+							<p:calendar 
+								id="vigenteHasta" 
+								value="#{roleView.newRole.expirationDate}"
+								pattern="dd/MM/yyyy" 
+								mask="true" 
+								navigator="true"
+								locale="es" />
+							<p:message for="vigenteHasta" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{roleView.status.code == 2}">
+							<p:calendar 
+								id="vigenteHastaUpdate" 
+								value="#{roleView.roleSelected.expirationDate}"
+								pattern="dd/MM/yyyy" 
+								mask="true" 
+								navigator="true"
+								locale="es" />
+							<p:message for="vigenteHasta" />
+						</h:panelGroup>
+					
+					</p:panelGrid>
+				<p:spacer height="10" />
+				<p:separator/>
+				<center>
+					<p:outputPanel style="width: 100%; font-size:16px !important;">
+	
+						<p:commandButton
+							actionListener="#{roleView.saveRole}"
+							value="#{safiCommonBundle.Save}"
+							update=":registerRoleForm:roleTable :createUpdateRoleForm"
+							oncomplete="PF('roleDialog').hide();"
+							validateClient="true"
+							rendered="#{roleView.status.code ==  1}">
+							<p:confirm header="#{safiCommonBundle.ConfirmationHeader}"
+								message="#{safiCommonBundle.ConfirmCreateMessage}" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:commandButton
+							actionListener="#{roleView.updateRole}"
+							value="Actualizar"
+							update=":registerRoleForm:roleTable :createUpdateRoleForm"
+							oncomplete="PF('roleDialog').hide();"
+							validateClient="true"
+							rendered="#{roleView.status.code ==  2}">
+							<p:confirm header="#{safiCommonBundle.ConfirmationHeader}"
+								message="#{safiCommonBundle.ConfirmCreateMessage}" icon="ui-icon-alert" />
+						</p:commandButton>
+					
+						<p:spacer width="7" />
+						<p:commandButton id="cancelButton" value="#{safiCommonBundle.Cancel}"
+							oncomplete="PF('roleDialog').hide();"
+							process="@this">
+							<p:resetInput target="createUpdateRoleForm" />
+						</p:commandButton>
+					</p:outputPanel>
+				</center>
+			</h:form>
+		</p:dialog>
+	
+    </ui:composition>
+</html>

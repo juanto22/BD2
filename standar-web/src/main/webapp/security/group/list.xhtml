@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/layout.xhtml">
+
+    <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="subheader">
+        <h:outputText value="PRUEBAS"></h:outputText>
+    </ui:define>
+
+    <ui:define name="content">
+	
+		<h:form id="registerGroupForm">
+	        
+	        
+	        <p:contextMenu id="ctxGroup" for="registerGroupForm:groupTable">
+				<p:menuitem value="Editar" icon="fa fa-pencil"
+							actionListener="#{groupView.preparedUpdateGroup}"
+							update="createUpdateGroupForm" 
+							oncomplete="PF('groupDialog').show()"/>
+				
+				<p:menuitem value="Eliminar" icon="fa fa-trash"
+					process="@this groupTable" update="groupTable" 
+					actionListener="#{groupView.deleteGroup}">
+						<p:confirm header="Eliminacion"
+							message="Desea eliminar este registro?" />
+				</p:menuitem>
+			</p:contextMenu>
+	        
+	        
+	        <h2>Listado de grupos</h2>
+	        <p:separator />
+	        
+	       <p:dataTable id="groupTable" value="#{groupView.groups}"
+                        var="group" rowIndexVar="indice" 
+                        rowKey="#{group}"
+                        selection="#{groupView.groupSelected}" selectionMode="single"
+                        emptyMessage="#{safiCommonBundle.ListEmpty}" 
+                        paginator="true" rows="10" paginatorPosition="bottom"
+                      	paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        currentPageReportTemplate="| #{safiCommonBundle.page} {currentPage} #{safiCommonBundle.of} {totalPages} |" 
+                        rowsPerPageTemplate="10,20,30,40"> 
+	        		
+	        		<f:facet name="header">
+			        	Grupos
+			        </f:facet>
+	        		
+	        		<p:column headerText="Nombre" >
+			        	#{groupView.getName(group.name)}
+			        </p:column>
+
+					<p:column headerText="Fecha de creacion"  >
+			        	#{of:formatDate(group.createdDate, 'dd/MM/yyyy')}
+			        </p:column>
+			        
+			        <p:column headerText="Fecha de expiracion" >
+			        	#{group.expirationDate == null ? '-' : of:formatDate(group.expirationDate, 'dd/MM/yyyy')}
+			        </p:column>
+	        </p:dataTable>
+	        
+	        
+	        <p:commandButton
+				value="#{safiCommonBundle.addLabel}"
+				actionListener="#{groupView.preparedCreatedGroup}"
+				icon="fa fa-plus-circle" update=":createUpdateGroupForm"
+				oncomplete="PF('groupDialog').show()" />
+				
+				
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Si" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+		
+		<ui:include
+			src="../dialogs/created_edit_dialog_group.xhtml" />
+		
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" 
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions">
+
+    <f:view contentType="text/html" locale="#{localeController.locale}">
+
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta http-equiv="Content-Type"
+                      content="text/html; charset=iso-8859-1" />
+                <meta charset="iso-8859-1" />
+                <meta http-equiv="Cache-Control"
+                      content="no-store,no-cache,must-revalidate" />
+                <meta http-equiv="Pragma" content="no-cache" />
+                <meta http-equiv="Expires" content="-1" />
+                <link rel="shortcut icon" type="image/x-icon"
+                      href="#{resource['images/safi/favicon.ico']}" />
+                <meta name="viewport"
+                      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+                <h:outputStylesheet library="css" name="clasificadores.css" />
+
+                <!--<link rel="stylesheet" href="http://localhost/mh-projects/demo/css/adjust1.css" type="text/css" />-->
+                <!--<link rel="stylesheet" href="http://localhost/estilos/adjust.css" type="text/css" />-->
+
+            </f:facet>
+            <h:outputScript library="omnifaces" name="fixviewstate.js" target="head" />
+
+            <h:outputScript name="js/ripple-effect.js" library="adamantium-layout" />
+            <h:outputScript name="js/perfect-scrollbar.js"
+                            library="adamantium-layout" />
+            <h:outputScript name="js/layout.js" library="adamantium-layout" />
+            <f:facet name="last">
+                <h:outputStylesheet library="css" name="diagram.css" />
+                <h:outputScript library="js" name="diagram.js" />
+                <h:outputScript library="js" name="pfcrud.js" />
+                <h:outputScript library="js" name="modificaciones.js" />
+                <h:outputScript library="js" name="calendar-localization.js"/>
+<!--                 <h:outputScript library="js" name="jquery.safi-cifrado.js"/> -->
+                <!--<script type="text/javascript" src="http://localhost/mh-projects/demo/js/jquery.safi-cifrado.js"></script>-->  
+                <!--<script type="text/javascript" src="http://localhost/estilos/modificaciones.js"></script>-->
+
+            </f:facet>
+
+            <title>#{safiCommonBundle.AppName2}</title>
+            <ui:insert name="head" />
+        </h:head>
+
+        <h:body>
+            <f:facet name="last">
+                <h:outputStylesheet library="css" name="title.css" />
+<!--                 <h:outputStylesheet library="css" name="adjust.css" /> -->
+                <!--<link rel="stylesheet" href="http://localhost/estilos/adjust.css" type="text/css" />-->
+            </f:facet>
+            <p:growl id="message" sticky="false" showDetail="true"
+                     autoUpdate="true" globalOnly="true"  />
+
+            <ui:include src="/include/topbar.xhtml" />
+
+            <ui:include src="/include/layoutmenu.xhtml" />
+
+            <p:tooltip />
+
+            <div id="layout-portlets-cover">
+
+                <div class="Container100">
+                    <div class="ContainerIndent">
+                        <h:form prependId="false">
+<!--                             <p:splitButton -->
+<!--                                 value="#{safiCommonBundle.LoginWelcome} #{segSecurityController.userFullName}" -->
+<!--                                 icon="fa fa-slideshare" styleClass="Fleft" -->
+<!--                                 rendered="#{not empty p:remoteUser()}"> -->
+<!--                                 <p:menuitem value="#{safiCommonBundle.settings}" -->
+<!--                                             icon="fa fa-cogs" onclick="PF('accountDlg').show();" /> -->
+<!--                             </p:splitButton> -->
+<!--                             <ui:insert name="documents"></ui:insert> -->
+<!--                             <p:outputLabel -->
+<!--                                 rendered="#{!segSecurityController.showHeader and segSecurityController.currentInstitution!=''}"> -->
+<!--                                 <div class="Card"> -->
+<!--                                     <div class="CardTopic"> -->
+<!--                                         <div class="Container100 Responsive50"> -->
+<!--                                             <div class="ContainerIndent"> -->
+<!--                                                 <div align="center" class="Card SoftGrayBack"> -->
+<!--                                                     <i class="icon-store Fs40 Center Orange MarRight10"></i> -->
+<!--                                                     <div class="TexAlCenter DispInlBlock"> -->
+                                                       
+<!--                                                     </div> -->
+<!--                                                 </div> -->
+<!--                                             </div> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </p:outputLabel> -->
+                        </h:form>
+                    </div>
+                </div>
+                <div class="EmptyBox5"></div>
+
+                <ui:insert name="mainContent">
+
+                </ui:insert>
+
+                <ui:insert name="master"></ui:insert>
+                <ui:insert name="detail"></ui:insert>
+
+                <div class="Container100 TexAlCenter Gray FontAdamantiumRegular">
+                    <div class="EmptyBox30"></div>
+                    <ui:include src="/include/footer.xhtml" />
+                </div>
+
+            </div>
+            <p:ajaxStatus styleClass="loadIcon">
+                <f:facet name="start">
+                    <p:graphicImage name="safi/loading.gif" library="images" />
+                    <script>
+                        jQuery("#mainbody").fadeOut(0);
+                        jQuery("#layout-menu-cover").fadeOut(0);
+                        jQuery("#layout-topbar").fadeOut(0);
+                    </script>
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                    <script>
+                        jQuery("#mainbody").fadeIn(800);
+                        jQuery("#layout-menu-cover").fadeIn(800);
+                        jQuery("#layout-topbar").fadeIn(800);
+                    </script>
+                </f:facet>
+            </p:ajaxStatus>
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage name="safi/loading.gif" library="images" />
+            </p:dialog>
+<!--             <ui:include src="/include/accountDialog.xhtml" /> -->
+
+            <h:outputStylesheet name="css/core-layout.css"
+                                library="adamantium-layout" />
+            <h:outputStylesheet name="css/animate.css" library="adamantium-layout" />
+            <h:outputStylesheet name="css/adamantium-font.css"
+                                library="adamantium-layout" />
+            <h:outputStylesheet name="css/ripple-effect.css"
+                                library="adamantium-layout" />
+            <h:outputStylesheet name="css/perfect-scrollbar.css"
+                                library="adamantium-layout" />
+            <h:outputStylesheet name="css/font-awesome.css"
+                                library="adamantium-layout" />
+            <h:outputStylesheet name="css/adamantium-layout.css"
+                                library="adamantium-layout" />
+
+
+            <h:form id="logoutForm">
+                
+
+            </h:form>
+        </h:body>
+
+    </f:view>
+
+
+
+</html>

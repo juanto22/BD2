@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <link rel="shortcut icon" type="image/x-icon"
+                      href="#{resource['images/safi/favicon.ico']}" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+<!--             <link rel="shortcut icon" type="image/x-icon" -->
+<!--                       href="#{resource['images/safi/favicon.ico']}" /> -->
+        </f:facet>
+        <title>Gesily S.A. de C.V</title>
+        <ui:insert name="head" />
+    </h:head>
+
+    <h:body>
+
+    <p:growl id="growl" life="3000" showDetail="true" />
+
+        <div class="Container100 BordBottom BlueBack loginback">
+            <div class="EmptyBox50"></div>
+
+            <div class="Wid90 MarAuto">
+                <div class="Wid30 DispBlock MarAuto WidAutoOnMobile">
+                    <div class="Card TexAlCenter" style="margin-bottom:-650px;">
+                        
+                        <h:graphicImage  library="images" name="safi/logo.jpeg" style="max-width:180px;"/>
+                        
+                        <div class="SeparatorFull"></div>
+                        
+                        <div class="Wid100 OvHidden BigTopic">
+                        	<i class="icon-security DispBlock"></i> #{safiCommonBundle.signUp}
+                        </div>
+                        
+                        <div class="EmptyBox20"></div>
+
+					<h:form id="loginForm" enctype="application/x-www-form-urlencoded">
+
+						<div class="Card SoftGrayBack">
+							<p:inputText id="j_username" placeholder="Usuario"
+								styleClass="Wid90 TexAlCenter" value="#{loginCredentials.userId}"
+								title="digite su nombre de usuario" required="true"
+								requiredMessage="campo requerido*" />
+
+							<div class="EmptyBox10"></div>
+
+							<p:password id="j_password" placeholder="Password"
+								styleClass="Wid90 TexAlCenter" value="#{loginCredentials.password}"
+								title="digite su password" required="true" autocomplete="off"
+								requiredMessage="campo requerido*" />
+
+							<div class="EmptyBox30"></div>
+
+							<div class="EmptyBox30"></div>
+
+							<p:commandButton value="Ingresar" styleClass="CyanButton"
+								type="submit"
+								action="#{loginController.login}" ajax="false"
+								icon="fa fa-sign-in" update=":growl" />
+							<div class="EmptyBox10 ShowOnMobile"></div>
+						</div>
+					</h:form>
+				</div>
+                </div>
+            </div>
+ 			<div class="EmptyBox10"></div>
+        </div>
+
+        <h:outputStylesheet name="css/core-layout.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/animate.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/adamantium-font.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/ripple-effect.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/font-awesome.css" library="adamantium-layout" />
+        <h:outputStylesheet name="css/adamantium-layout.css" library="adamantium-layout" />
+    </h:body>
+
+</html>

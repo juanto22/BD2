@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <cc:interface  componentType="sv.gob.mh.safi.uicomponent.upperCase">
+        <cc:attribute name="value" required="true" type="java.lang.String"  shortDescription="El valor a convertir a UpperCase." />
+    </cc:interface>
+
+    <cc:implementation>
+        <span class="ui-safi-uppercased" id="#{cc.attrs.id}">#{cc.attrs.value}</span>
+    </cc:implementation>
+</ui:composition>

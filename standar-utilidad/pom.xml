@@ -1,0 +1,231 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <artifactId>standar-utilidad</artifactId>
+  <packaging>jar</packaging>
+  <name>standar-utilidad</name>
+  <description>Utilidades.</description>
+    
+  <parent>
+    <groupId>com.stack.project</groupId>
+    <artifactId>stack-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+  <dependencies>
+  	
+  	<dependency>
+		<groupId>org.primefaces</groupId>
+		<artifactId>adamantium-theme</artifactId>
+		<version>2.0</version>
+	</dependency>
+	
+	<dependency>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink</artifactId>
+      <scope>compile</scope>
+    </dependency>
+         
+	<dependency>
+		<groupId>org.primefaces.extensions</groupId>
+        <artifactId>primefaces-extensions</artifactId>
+    </dependency>
+    
+    <dependency>
+   		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-email</artifactId>
+   </dependency>
+   
+    <dependency>
+    	<groupId>org.primefaces.extensions</groupId>
+        <artifactId>resources-ckeditor</artifactId>
+    </dependency>
+        
+    <dependency>
+        <groupId>org.primefaces.extensions</groupId>
+        <artifactId>resources-codemirror</artifactId>
+    </dependency>
+
+    <!-- Spring Security Config -->
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-config</artifactId>
+    </dependency>
+    
+    <!-- Spring Data Jpa -->
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-jpa</artifactId>
+    </dependency>
+
+    <!-- Spring Ldap -->
+    <dependency>
+        <groupId>org.springframework.ldap</groupId>
+        <artifactId>spring-ldap-core</artifactId>
+    </dependency>
+
+     <!-- Spring Integration mail -->
+     <dependency>
+         <groupId>org.springframework.integration</groupId>
+         <artifactId>spring-integration-mail</artifactId>
+     </dependency>
+
+     <!-- Java Mail -->
+     <dependency>
+         <groupId>javax.mail</groupId>
+         <artifactId>javax.mail-api</artifactId>
+     </dependency>
+
+     <!-- Hibernate Core -->
+     <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-core</artifactId>
+         <scope>provided</scope>
+     </dependency>
+
+     <!-- Javax Validator -->
+     <dependency>
+         <groupId>javax.validation</groupId>
+         <artifactId>validation-api</artifactId>
+     </dependency>
+
+   	 <!-- Commons lang -->
+     <dependency>
+         <groupId>org.apache.commons</groupId>
+         <artifactId>commons-lang3</artifactId>
+     </dependency>
+
+     <!-- Spring web -->
+     <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-web</artifactId>
+     </dependency>
+
+     <!-- CDI -->
+     <dependency>
+         <groupId>javax.enterprise</groupId>
+         <artifactId>cdi-api</artifactId>
+         <scope>provided</scope>
+     </dependency>
+
+     <!-- EJB -->
+     <dependency>
+         <groupId>org.jboss.spec.javax.ejb</groupId>
+         <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+         <scope>provided</scope>
+     </dependency>
+
+     <!-- Servlet -->
+     <dependency>
+         <groupId>org.jboss.spec.javax.servlet</groupId>
+         <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+         <scope>provided</scope>
+     </dependency>
+
+        <!-- El Api -->
+        <!-- <dependency> -->
+        <!-- <groupId>javax.el</groupId> -->
+        <!-- <artifactId>el-api</artifactId> -->
+        <!-- </dependency> -->
+
+      <!-- EL -->
+      <dependency>
+          <groupId>org.jboss.spec.javax.el</groupId>
+          <artifactId>jboss-el-api_2.2_spec</artifactId>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- JSF Api -->
+      <dependency>
+          <groupId>org.jboss.spec.javax.faces</groupId>
+          <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- PrimeFaces -->
+      <dependency>
+          <groupId>org.primefaces</groupId>
+          <artifactId>primefaces</artifactId>
+      </dependency>
+
+        <!-- PrimeFaces Themes -->
+<!--         <dependency> -->
+<!--             <groupId>org.primefaces.themes</groupId> -->
+<!--             <artifactId>all-themes</artifactId> -->
+<!--         </dependency> -->
+
+        <!-- Auditing -->
+     <!-- Joda Time -->
+     <dependency>
+         <groupId>joda-time</groupId>
+         <artifactId>joda-time</artifactId>
+     </dependency>
+     <!-- Auditing -->
+
+     <!-- Query DSL Apt -->
+     <dependency>
+         <groupId>com.mysema.querydsl</groupId>
+         <artifactId>querydsl-apt</artifactId>
+     </dependency>
+
+     <!-- Query DSL Jpa -->
+     <dependency>
+         <groupId>com.mysema.querydsl</groupId>
+         <artifactId>querydsl-jpa</artifactId>
+     </dependency>
+
+     <!-- Mvel -->
+     <dependency>
+         <groupId>org.mvel</groupId>
+         <artifactId>mvel2</artifactId>
+     </dependency>
+
+    <!-- Lombok -->
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+    </dependency>
+
+    <!-- Jasperreports -->
+    <dependency>
+        <groupId>net.sf.jasperreports</groupId>
+        <artifactId>jasperreports</artifactId>
+    </dependency>
+
+<!--         <dependency> -->
+<!--             <groupId>net.sf.jasperreports</groupId> -->
+<!--             <artifactId>jasperreports-functions</artifactId> -->
+<!--         </dependency> -->
+
+    <!-- Poi -->
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.omnifaces</groupId>
+        <artifactId>omnifaces</artifactId>
+    </dependency>
+
+    <!-- JBoss VFS File System -->
+    <dependency>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-vfs</artifactId>
+        <version>3.1.0.Final</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-catalina</artifactId>
+        <version>7.0.42</version>
+        <type>jar</type>
+    </dependency>
+    
+    <dependency>
+        <groupId>uk.com.robust-it</groupId>
+        <artifactId>cloning</artifactId>
+    </dependency>
+ 
+  </dependencies>
+  
+</project>

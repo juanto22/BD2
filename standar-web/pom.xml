@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <modelVersion>4.0.0</modelVersion>
+  
+  
+  <artifactId>standar-web</artifactId>
+  <packaging>war</packaging>
+  <name>standar-web</name>
+  <description>front-end</description>
+  
+  <parent>
+    <groupId>com.stack.project</groupId>
+    <artifactId>stack-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+ 
+ <properties>
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <spring.version>4.0.6.RELEASE</spring.version>
+    <hibernate.version>4.3.6.Final</hibernate.version>
+    <mojarra.version>2.1.17</mojarra.version>
+  </properties>
+ 
+   
+  <dependencies>
+  
+  	 <!-- https://mvnrepository.com/artifact/org.wildfly.bom/jboss-javaee-7.0-with-tools -->
+   <dependency>
+    	<groupId>org.wildfly.bom</groupId>
+    	<artifactId>jboss-javaee-7.0-with-tools</artifactId>
+    	<version>8.1.0.Final</version>
+    	<type>pom</type>
+   </dependency>
+   
+    <dependency>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    
+<!--     <dependency> -->
+<!-- 		<groupId>org.picketlink</groupId> -->
+<!-- 		<artifactId>picketlink-impl</artifactId> -->
+<!-- 		<scope>runtime</scope> -->
+<!-- 	</dependency> -->
+  
+  
+   <dependency>
+   		<groupId>org.primefaces</groupId>
+        <artifactId>primefaces</artifactId>
+   </dependency>
+    
+    <dependency>
+   		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-email</artifactId>
+   </dependency>
+   
+    <dependency>
+    	<groupId>org.primefaces.extensions</groupId>
+    	<artifactId>all-themes</artifactId>
+    	<version>1.0.8</version>
+    	<type>pom</type>
+	</dependency>
+	
+	<dependency>
+        <groupId>org.omnifaces</groupId>
+        <artifactId>omnifaces</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.primefaces.extensions</groupId>
+        <artifactId>primefaces-extensions</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.primefaces.extensions</groupId>
+        <artifactId>resources-ckeditor</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.primefaces.extensions</groupId>
+        <artifactId>resources-codemirror</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>3.9</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>com.lowagie</groupId>
+        <artifactId>itext</artifactId>
+        <version>2.1.7</version>
+    </dependency>
+    
+   <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-jpa</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.mvel</groupId>
+        <artifactId>mvel2</artifactId>
+    </dependency>   
+         
+    <dependency>
+        <groupId>javax.enterprise</groupId>
+        <artifactId>cdi-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+	
+<!-- 	<dependency> -->
+<!--             <groupId>org.jboss.spec.javax.annotation</groupId> -->
+<!--             <artifactId>jboss-annotations-api_1.2_spec</artifactId> -->
+<!--             <scope>provided</scope> -->
+<!--      </dependency> -->
+        
+    <dependency>
+        <groupId>org.jboss.spec.javax.servlet</groupId>
+        <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+                
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.spec.javax.ws.rs</groupId> -->
+<!--             <artifactId>jboss-jaxrs-api_2.0_spec</artifactId> -->
+<!--             <scope>provided</scope> -->
+<!--         </dependency> -->
+        
+     <dependency>
+         <groupId>org.jboss.spec.javax.ejb</groupId>
+         <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+         <scope>provided</scope>
+     </dependency>
+        
+     <dependency>
+         <groupId>org.jboss.spec.javax.faces</groupId>
+         <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+         <scope>provided</scope>
+     </dependency>
+     
+     <dependency> 
+         <groupId>org.jboss.spec.javax.el</groupId> 
+         <artifactId>jboss-el-api_2.2_spec</artifactId> 
+         <scope>provided</scope>
+     </dependency> 
+        
+      <!--hibernate-->
+      <dependency>
+          <groupId>org.hibernate.javax.persistence</groupId>
+          <artifactId>hibernate-jpa-2.1-api</artifactId>
+          <scope>provided</scope>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-entitymanager</artifactId>
+          <scope>provided</scope>
+      </dependency>
+      
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-validator</artifactId>
+          <scope>provided</scope>
+          <exclusions>
+              <exclusion>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-api</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+       
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-validator-annotation-processor</artifactId>
+          <scope>provided</scope>
+      </dependency>
+      
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
+        
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.arquillian.junit</groupId> -->
+<!--             <artifactId>arquillian-junit-container</artifactId> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+        
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.arquillian.protocol</groupId> -->
+<!--             <artifactId>arquillian-protocol-servlet</artifactId> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+        
+     <!-- Oracle Driver -->
+     <dependency>
+         <groupId>com.oracle</groupId>
+         <artifactId>ojdbc7</artifactId>
+         <scope>provided</scope>
+     </dependency>
+     
+     <dependency>
+         <groupId>javax.validation</groupId>
+         <artifactId>validation-api</artifactId>
+     </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>standar-comun</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>standar-utilidad</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+     <dependency>
+         <groupId>com.mysema.querydsl</groupId>
+         <artifactId>querydsl-apt</artifactId>
+     </dependency>
+     
+     <dependency>
+         <groupId>com.mysema.querydsl</groupId>
+         <artifactId>querydsl-jpa</artifactId>
+         <exclusions>
+             <exclusion>
+                 <artifactId>hibernate-jpa-2.0-api</artifactId>
+                 <groupId>org.hibernate.javax.persistence</groupId>
+             </exclusion>
+         </exclusions>
+     </dependency>
+    
+     <dependency>
+         <groupId>uk.com.robust-it</groupId>
+         <artifactId>cloning</artifactId>
+     </dependency>
+     
+      
+     <dependency>
+         <groupId>org.infinispan</groupId>
+         <artifactId>infinispan-core</artifactId>
+         <scope>provided</scope>
+     </dependency>
+  
+  </dependencies>
+  
+  
+	 <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <archive>
+                        <manifestEntries>
+                            <Dependencies>org.infinispan export</Dependencies>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <version>7.5.Final</version>
+                <configuration>
+                    <skip>false</skip>
+                    <targetDir>./target/</targetDir>
+                    <filename>${project.build.finalName}.war</filename>
+                </configuration>
+            </plugin>              
+        </plugins>
+    </build>
+  
+</project>

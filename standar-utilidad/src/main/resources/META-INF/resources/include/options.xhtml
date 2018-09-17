@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:head>
+		<h:outputScript library="js" name="pfcrud.js" />
+	</h:head>
+
+	<p:dialog id="SegOptionsDlg" widgetVar="SegOptionsDialog" modal="true"
+		resizable="false" appendTo="@(body)"
+		header="#{safiCommonBundle.optionsTitle}"
+		onHide="document.getElementById('SegOptionsForm:cancelButton').click();">
+
+		<h:form id="SegOptionsForm">
+
+			<h:panelGroup id="display">
+				<p:panelGrid columns="2" columnClasses="column">
+
+					<p:outputLabel value="#{safiCommonBundle.optionsInstitution}"
+						for="institution" />
+					<h:panelGroup>
+						<p:selectOneMenu id="institution" required="true"
+							value="#{segSecurityOptionController.currentInstitution}"
+							filter="true" filterMatchMode="contains" style="width:300px"
+							panelStyle="width:300px"
+							requiredMessage="#{safiCommonBundle.optionsRequiredMessage_institution}">
+
+							<p:ajax
+								listener="#{segSecurityOptionController.loadFinancialUnit}"
+								update=":SegOptionsForm:unidadFinanc,:SegOptionsForm:unidadEjec" />
+
+							<f:selectItem itemLabel="#{safiCommonBundle.SelectOneMessage}" />
+							<f:selectItems
+								value="#{segSecurityOptionController.institutionList}"
+								var="institution" itemValue="#{institution}"
+								itemLabel="#{institution.description}" />
+							<f:converter converterId="jsfUniversalConverter" />
+						</p:selectOneMenu>
+						<p:tooltip for="institution"
+							value="#{segSecurityOptionController.getComponentMessages('institution', safiCommonBundle.optionsHelpText_institution)}" />
+						<p:message for="institution" />
+					</h:panelGroup>
+
+					<p:outputLabel value="#{safiCommonBundle.optionsFinancialUnit}"
+						for="unidadFinanc" />
+					<h:panelGroup>
+						<p:selectOneMenu id="unidadFinanc" required="true"
+							value="#{segSecurityOptionController.currentFinancialUnit}"
+							filter="true" filterMatchMode="contains" style="width:300px"
+							panelStyle="width:300px"
+							requiredMessage="#{safiCommonBundle.optionsRequiredMessage_financialUnit}">
+
+							<p:ajax
+								listener="#{segSecurityOptionController.loadExecutingUnit}"
+								update=":SegOptionsForm:unidadEjec" />
+
+							<f:selectItem itemLabel="#{safiCommonBundle.SelectOneMessage}" />
+							<f:selectItems
+								value="#{segSecurityOptionController.financialUnitList}"
+								var="financialUnit" itemValue="#{financialUnit}"
+								itemLabel="#{financialUnit.description}" />
+							<f:converter converterId="jsfUniversalConverter" />
+						</p:selectOneMenu>
+						<p:tooltip for="unidadFinanc"
+							value="#{segSecurityOptionController.getComponentMessages('unidadFinanc', safiCommonBundle.optionsHelpText_financialUnit)}" />
+						<p:message for="unidadFinanc" />
+					</h:panelGroup>
+
+					<p:outputLabel value="#{safiCommonBundle.optionsExecutingUnit}"
+						for="unidadEjec" />
+					<h:panelGroup>
+						<p:selectOneMenu id="unidadEjec" required="true"
+							value="#{segSecurityOptionController.currentExecutingUnit}"
+							filter="true" filterMatchMode="contains" style="width:300px"
+							panelStyle="width:300px"
+							requiredMessage="#{safiCommonBundle.optionsRequiredMessage_executingUnit}">
+							<f:selectItem itemLabel="#{safiCommonBundle.SelectOneMessage}" />
+							<f:selectItems
+								value="#{segSecurityOptionController.executingUnitList}"
+								var="executingUnit" itemValue="#{executingUnit}"
+								itemLabel="#{executingUnit.description}" />
+							<f:converter converterId="jsfUniversalConverter" />
+						</p:selectOneMenu>
+						<p:tooltip for="unidadEjec"
+							value="#{segSecurityOptionController.getComponentMessages('unidadEjec', safiCommonBundle.optionsHelpText_executingUnit)}" />
+						<p:message for="unidadEjec" />
+					</h:panelGroup>
+				</p:panelGrid>
+
+
+				<p:commandButton
+					actionListener="#{segSecurityOptionController.save}"
+					value="#{safiCommonBundle.Save}"
+					process="@this,institution,unidadFinanc,unidadEjec"
+					update=":SegOptionsForm:institution,:SegOptionsForm:unidadFinanc,:SegOptionsForm:unidadEjec"
+					oncomplete="handleSubmit(xhr,status,args,PF('SegOptionsDialog'));" />
+
+				<p:commandButton id="cancelButton" value="#{safiCommonBundle.Cancel}"
+					process="@this" oncomplete="PF('SegOptionsDialog').hide();" />
+			</h:panelGroup>
+
+			<ui:include src="/include/confirmation.xhtml" />
+
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</h:form>
+
+	</p:dialog>
+
+</ui:composition>
+
+</html>

@@ -1,0 +1,302 @@
+@CHARSET "UTF-8";
+
+body {
+    background:url(images/safi/navy_blue.png);
+    font-size:10px;
+}
+a.visited {
+    color: #1F3A4F;
+}
+.container{
+    max-width: none !important;
+    width: 970px;
+    height:100% !important;
+}
+
+
+.mh-row-header{background:url(images/safi/header-bg.png) top center #0066cc	 no-repeat; font-size:1.2em; color:#ffffff; font-weight: lighter; letter-spacing: 1px;}
+
+#safi-row-submenu{display:none; }
+#safi-submenu{padding:10px; background:url("images/safi/shadow-bottom.PNG") bottom center no-repeat;border-left:1px solid #cccccc; border-right:1px solid #cccccc;}
+.mh-row-body{background: url("images/safi/squairy_light.png");}
+.mh-row-body > .container{background:url(images/safi/top-shadow.png) top center no-repeat #ffffff; padding-top:20px;}
+
+/*
+Pantalla de logueo
+*/
+.login-header .safi2-esa-logo img{
+	margin: 21px 0;
+}
+
+.login-header .ie-safi2-id-text p{
+	margin: 40px 0 0 0;
+}
+
+.login-header .safi-f img{
+    width: 150px;
+    margin: 23px 15px;
+}
+
+.login-header h3{
+    margin: 10px 0;
+}
+
+/*
+	END
+*/
+
+.ie-safi2-login-form h2{
+    font-size: 18px;
+    padding: 10px 15px;
+    text-align: center;
+    color: #15cdff;
+}
+
+#safi-modules-2 h2{
+    font-size: 18px;
+    border-bottom: #f1f1f1 solid 3px;
+    padding: 10px 15px;
+}
+
+.ie-safi2-welcome-img{
+    margin: 0 auto;
+    float: none;
+}
+
+.safi2-esa-logo img{
+	margin: 10px 0;
+}
+
+.ie-safi2-id-text p{
+	margin: 25px 0 0 0;
+}
+
+.safi-f img{
+    width: 150px;
+    /*margin: 36px 15px;*/
+}
+
+.name{
+    color: #2a709e;
+    float: left;
+    padding: 7px 0;
+    width: 20%;
+}
+
+.value{
+    float: left;
+    width: 80%;
+}
+
+.recover-pass{
+    float: right;
+    margin: 8px 5px;
+    color: #2a709e;
+}
+
+.btn-login{
+    float: right !important;
+}
+
+.ie-safi2-welcome-img img{
+    border:0;
+}
+
+.div-footer{
+    color: #c2c3c4;
+    padding: 10px 15px;
+}
+
+.div-footer a{
+    color: #c2c3c4;
+}
+
+.ayuda-contacto{
+    margin:0 5px;
+}
+
+.float-box {
+	float:right !important;
+}
+
+
+.safi-list-group{border-left:#cccccc 2px solid; }
+.safi-list-group .list-group-item{background:transparent; border:none; font-size:1.2em;}
+#container {font-size:1.1em; color:#222;}
+.mh-table th a{font-weight: lighter}
+hr{margin:5px;}
+
+/*Asi estaba
+.btn-primary{background:#777; border:none;}
+.btn-primary:hover{background:url("images/safi/navy_blue.png"); }
+*/
+.btn-primary{
+    background:#2a709e;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#2a709e;
+}
+
+.checkbox{margin:5px;}
+.form-control{color:#222;}
+.breadcrumb>li>a{font-size:1.2em;}
+.breadcrumb>.active{ color:#000000;font-size:1.2em;}
+.pagination{margin:5px;}
+.pagination li a{border:none;}
+.pagination li.active a{background:url("images/safi/navy_blue.png");}
+.mh-row-footer{/*background:url(images/safi/navy_blue.png); position:fixed;*/ bottom:0; width:100%; margin:0; margin-bottom:0px;}
+.mh-row-footer p{ text-align: center; padding:10px; font-size:1.1em; color:#ffffff;}
+/*label{font-size: 1.1em; font}*/
+.safi-f{position:absolute; width:200px;}
+.safi-user-container{background:url(images/safi/middle-banner-left.png) no-repeat left center; /*padding:20px 0px 10px 10px;*/}
+
+/*primer propuesta de modulos*/
+#safi-modules-1 .safi-module{background:/*url(images/safi/shadow-top-short.png)*/ top center no-repeat; padding-top:10px;text-align: center;}
+#safi-modules-1 .safi-module a span{font-size:60px !important; margin:0px !important;}
+#safi-modules-1 .safi-module a{text-decoration: none; color:#666;}
+#safi-modules-1 .safi-module a:hover{text-decoration: none; color:#ff6600;}
+
+/*segunda propuesta de modulos*/
+
+#safi-modules-2 {border-left:#f1f1f1 solid 3px;}
+#safi-modules-2 .safi-module{text-align: center; float:left;}
+#safi-modules-2 .safi-module a{background-image:url(images/safi/iconos-modulos-safi.png);background-repeat: no-repeat; text-decoration: none; color:#666; display:block; width:90px; /*height:125px;*/ padding-top:90px;}
+/*#safi-modules-2 .safi-module a#safi-mod-1:hover, #safi-modules-2 .safi-module a#safi-mod-1{background-position:-244px 0px;}*/
+
+
+/*#safi-modules-2 .safi-module a#safi-mod-0:hover{background-position:-1050px 0px;}*/
+#safi-modules-2 .safi-module a#safi-mod-0{background-position:-22px 0;}
+#safi-modules-2 .safi-module a#safi-mod-1{background-position:-132px 0px;}
+
+#safi-modules-2 .safi-module a#safi-mod-2{background-position:-243px 1px;}
+#safi-modules-2 .safi-module a#safi-mod-3{background-position:-355px 0px;}
+#safi-modules-2 .safi-module a#safi-mod-4{background-position:-457px 0px;}
+#safi-modules-2 .safi-module a#safi-mod-5{background-position:-568px 0px;padding-top: 95px;}
+#safi-modules-2 .safi-module a#safi-mod-6{background-position:-797px 0px;padding-top: 95px;}
+#safi-modules-2 .safi-module a#safi-mod-7{background-position:-910px -234px;padding-top: 95px;}
+#safi-modules-2 .safi-module a#safi-mod-8{background-position:-680px 0px;padding-top: 95px;}
+#safi-modules-2 .safi-module a#safi-mod-9{background-position:-690px 0px;padding-top: 95px;}
+#safi-modules-2 .safi-module a#safi-mod-10{background-position:-21px -120px;padding-top: 105px;}
+#safi-modules-2 .safi-module a#safi-mod-11{background-position:-133px -110px;padding-top: 105px;}
+
+#safi-modules-2 .safi-module a#safi-mod-1:hover {
+	background-position: -132px -234px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-2:hover {
+	background-position: -243px -233px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-3:hover {
+	background-position: -355px -234px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-4:hover {
+	background-position: -457px -234px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-5:hover {
+	background-position: -568px -234px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-6 {
+	background-position: -797px 0px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-6:hover {
+	background-position: -797px -234px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-7 {
+	background-position: -910px 0px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-7:hover {
+	background-position: -910px -234px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-8 {
+	background-position: -680px 0px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-8:hover {
+	background-position: -680px -234px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-9 {
+	background-position: -240px -116px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-9:hover {
+	background-position: -240px -350px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-10:hover {
+	background-position: -21px -354px;
+}
+
+#safi-modules-2 .safi-module a#safi-mod-11:hover {
+	background-position: -133px -344px;
+}
+
+#safi-modules-2 .safi-module a:hover{text-decoration: none; color:#000000;}
+
+.row-module-setup{padding-top:25px; padding-bottom:25px;}
+
+
+
+/* alerts*/
+
+alert {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 18px;
+    color: #c09853;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.alert-heading {
+    color: inherit;
+}
+
+.alert .close {
+    position: relative;
+    top: -2px;
+    right: -21px;
+    line-height: 18px;
+}
+.alert-success {
+    color: #468847;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.alert-info {
+    color: #3a87ad;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+.alert-block {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.alert-block > p,
+.alert-block > ul {
+    margin-bottom: 0;
+}
+
+.alert-block p + p {
+    margin-top: 5px;
+}
+.alert-danger,
+.alert-error {
+    margin-top: 10px;
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}

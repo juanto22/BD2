@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<p:dialog id="ErrorDlg" widgetVar="ErrorDialog" resizable="false"
+		header="Proceso Verificación" width="600px" height="400px">
+		<h:form id="ErrorForm">
+			<h:panelGroup id="display">
+				<p:messages id="messages" escape="false" showDetail="true"
+					showIcon="false" />
+			</h:panelGroup>
+			<p:spacer height="50px" />
+			<p:separator />
+			<p:commandButton id="cancelButton" value="#{safiCommonBundle.Cancel}"
+				process="@this" oncomplete="PF('ErrorDialog').hide();" />
+
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</h:form>
+	</p:dialog>
+</ui:composition>
+
+</html>

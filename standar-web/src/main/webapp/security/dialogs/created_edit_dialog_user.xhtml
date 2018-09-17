@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <p:dialog header="Crear usuario" widgetVar="userDialog" id="userDialog" modal="true"
+				  showEffect="blind" resizable="false" hideEffect="blind" width="35%"
+				  visible=""
+				  appendTo="@(body)" responsive="true">
+				<h:form id="createUpdateUserForm">
+				
+					<p:panelGrid columns="2" columnClasses="property, val" id="panelSend" style="width: 100%; font-size:16px !important;"
+						rendered="#{userView.newUser != null or userView.userSelected != null}">
+						
+						<p:outputLabel value="Nombre de usuario:" for="userName" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:inputText id="userName"
+								value="#{userView.newUser.userName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="50">
+<!-- 								<f:validateRegex pattern="^[^-\s][A-Za-z ñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="userName" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:inputText id="userNameUpdate"
+								value="#{userView.userSelected.userName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="50">
+<!-- 								<f:validateRegex pattern="^[^-\s][A-Za-z ñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="userNameUpdate" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Primer Nombre:" for="firtsName" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:inputText id="firtsName"
+								value="#{userView.newUser.firstName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+<!-- 								<f:validateRegex pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="firtsName" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:inputText id="firtsNameUpdate"
+								value="#{userView.userSelected.firstName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+<!-- 								<f:validateRegex pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="firtsNameUpdate" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Segundo Nombre:" for="middlenName" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:inputText id="middlenName"
+								value="#{userView.newUser.middleName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+<!-- 								<f:validateRegex pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="middlenName" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:inputText id="middlenNameUpdate"
+								value="#{userView.userSelected.middleName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+<!-- 								<f:validateRegex pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="middlenNameUpdate" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Apellidos:" for="lastName" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:inputText id="lastName"
+								value="#{userView.newUser.lastName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+<!-- 								<f:validateRegex pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="lastName" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:inputText id="lastNameUpdate"
+								value="#{userView.userSelected.lastName}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+<!-- 								<f:validateRegex pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ.,]*"/> -->
+							</p:inputText>
+							<p:message for="lastNameUpdate" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Correo:" for="email" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:inputText id="email"
+								value="#{userView.newUser.email}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+								<f:validateRegex pattern="^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$"/>
+							</p:inputText>
+							<p:message for="email" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:inputText id="emailUpdate"
+								value="#{userView.userSelected.email}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								validatorMessage="#{safiBundle.validateInputTextMessage}"
+								maxlength="30" >
+								<f:validateRegex pattern="^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$"/>
+							</p:inputText>
+							<p:message for="emailUpdate" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Telefono:" for="phone" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:inputMask id="phone"
+								value="#{userView.newUser.telephone}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								mask="(999) 9999-9999"
+								maxlength="30" >
+							</p:inputMask>
+							<p:message for="phone" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:inputMask id="phoneUpdate"
+								value="#{userView.userSelected.telephone}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								mask="(999) 9999-9999"
+								maxlength="30" >
+							</p:inputMask>
+							<p:message for="phoneUpdate" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Direccion:" for="address" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:inputTextarea id="address"
+								value="#{userView.newUser.address}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								rows="6" cols="33">
+							</p:inputTextarea>
+							<p:message for="address" />
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:inputTextarea id="addressUpdate"
+								value="#{userView.userSelected.address}"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								rows="6" cols="33">
+							</p:inputTextarea>
+							<p:message for="addressUpdate" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Vigente:" for="vigente" rendered="#{userView.status.code == 2}" />
+						<h:panelGroup rendered="#{userView.status.code == 2}">
+							<p:selectBooleanCheckbox id="vigente"
+								value="#{userView.userSelected.enabled}"/>
+							<p:message for="vigente" />
+						</h:panelGroup>
+						
+						
+						<p:outputLabel value="Grupo:" for="userGroup" />
+						<h:panelGroup>
+							<p:selectOneMenu id="userGroup" value="#{userView.userGroup}" 
+								filter="true"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								filterMatchMode="contains" style="width:175px" effect="fold"
+								widgetVar="cbGroup">
+								<f:selectItem itemLabel="Seleccionar" />
+								<f:selectItems
+									value="#{userView.groups}" var="group"
+									itemLabel="#{groupView.getName(group.name)}" itemValue="#{group}" />
+								<f:converter converterId="jsfUniversalConverter" />
+							</p:selectOneMenu>
+							<p:message for="userGroup" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Rol:" for="userRol" />
+						<h:panelGroup>
+							<p:selectOneMenu id="userRol" value="#{userView.userRole}" 
+								filter="true"
+								required="true"
+								requiredMessage="#{safiBundle.requiredMessageNombre}"
+								filterMatchMode="contains" style="width:175px" effect="fold"
+								widgetVar="cbRol">
+								<f:selectItem itemLabel="Seleccionar" />
+								<f:selectItems
+									value="#{userView.roles}" var="role"
+									itemLabel="#{roleView.getName(role.name)}" itemValue="#{role}" />
+								<f:converter converterId="jsfUniversalConverter" />
+							</p:selectOneMenu>
+							<p:message for="userRol" />
+						</h:panelGroup>
+						
+				
+						<p:outputLabel value="Password:" for="password" rendered="#{userView.status.code == 1}"/>
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:password 
+								id="password" 
+								value="#{userView.password}" 
+								match="passwordConfirmation" 
+								label="Password 1" 
+								required="true" >
+								</p:password>
+							<p:message for="password" />
+						</h:panelGroup>
+						
+						<p:outputLabel value="Password confirmacion:" for="passwordConfirmation" rendered="#{userView.status.code == 1}" />
+						<h:panelGroup rendered="#{userView.status.code == 1}">
+							<p:password 
+								id="passwordConfirmation" 
+								value="#{userView.passwordConfirm}" 
+								label="Password 2" 
+								required="true" >
+								</p:password>
+							<p:message for="passwordConfirmation" />
+						</h:panelGroup>
+					</p:panelGrid>
+				<p:spacer height="10" />
+				<p:separator/>
+				<center>
+					<p:outputPanel style="width: 100%; font-size:16px !important;">
+	
+						<p:commandButton
+							actionListener="#{userView.saveUser}"
+							value="#{safiCommonBundle.Save}"
+							update=":registerUserForm:userTable :createUpdateUserForm"
+							oncomplete="PF('userDialog').hide();"
+							validateClient="true"
+							rendered="#{userView.status.code ==  1}">
+							<p:confirm header="#{safiCommonBundle.ConfirmationHeader}"
+								message="#{safiCommonBundle.ConfirmCreateMessage}" icon="ui-icon-alert" />
+						</p:commandButton>
+						
+						<p:commandButton
+							actionListener="#{userView.updateUser}"
+							value="Actualizar"
+							update=":registerUserForm:userTable :createUpdateUserForm"
+							oncomplete="PF('userDialog').hide();"
+							validateClient="true"
+							rendered="#{userView.status.code ==  2}">
+							<p:confirm header="#{safiCommonBundle.ConfirmationHeader}"
+								message="#{safiCommonBundle.ConfirmCreateMessage}" icon="ui-icon-alert" />
+						</p:commandButton>
+					
+						<p:spacer width="7" />
+						<p:commandButton id="cancelButton" value="#{safiCommonBundle.Cancel}"
+							oncomplete="PF('userDialog').hide();"
+							process="@this">
+							<p:resetInput target="createUpdateUserForm" />
+						</p:commandButton>
+					</p:outputPanel>
+				</center>
+			</h:form>
+		</p:dialog>
+	
+    </ui:composition>
+</html>

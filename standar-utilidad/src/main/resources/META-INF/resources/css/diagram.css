@@ -1,0 +1,67 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Aug 17, 2015, 10:31:59 PM
+    Author     : cespinoza
+*/
+.ui-diagram-element {
+	position: absolute;
+}
+
+.border-radius {
+	border-radius: 5em;
+}
+
+.normal {
+	color: black;
+	background: lightgray;
+	line-height: 35px;
+	width: 125px;
+	text-align: center;
+	border-style: solid;
+	vertical-align: middle
+}
+
+.inicial {
+	background: -webkit-linear-gradient(#F3F2EE, #CEE160);
+	border-color: #7DAB34;
+	font-weight: bold;
+}
+
+.final {
+	background: -webkit-linear-gradient(#F7F5F5, #D47C7C);
+	border-color: #721E1E;
+	font-weight: bold;
+}
+
+.intermedio {
+	background: -webkit-linear-gradient(#F7F5F5, #93B1C2);
+	border-color: #206293;
+	font-weight: bold;
+}
+
+.state-footer {
+	border-radius: 5em;
+	float: left;
+	margin-top: 25px;
+	margin-right: 25px;
+	line-height: 25px;
+	font-size: 75%;
+	width: 110px;
+	font-weight: bold;
+}
+
+.pe-dynaform-cell {
+	vertical-align: top;
+}
+
+.clearLink {
+	vertical-align: middle;
+}
+
+.pe-dynaform-cell .ui-spinner input {
+	width: 60px;
+}

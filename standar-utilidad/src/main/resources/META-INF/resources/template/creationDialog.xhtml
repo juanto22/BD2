@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:o="http://omnifaces.org/ui">
+    <ui:composition>
+
+        <p:dialog id="CreaDocumentoDialog" widgetVar="CreaDocumentoDlg" modal="true" 
+                  showEffect="fade" resizable="false" hideEffect="fade" responsive="true"
+                  appendTo="@(body)" >
+            <f:facet name="header">
+                <h:outputText value="#{creationHeader}" escape="false" />
+            </f:facet>
+            <h:form id="selecCrearDocumentoForm">
+                <p:messages escape="false" id="message" />
+                <p:outputPanel rendered="#{not(documentmodelView.useDefaultCreationBody)}">
+                    <ui:insert name="createOwnBody" />
+                </p:outputPanel>
+                <p:outputPanel id="selecCrearDocumentoPanel" rendered="#{documentmodelView.useDefaultCreationBody}">
+                    <p:panelGrid columns="2" style="width: 100%; font-size:16px !important;" columnClasses="w200">
+                        <p:outputLabel value="Instituci&#243;n:" />
+                        <p:selectOneMenu id="in_institutions" value="#{documentmodelView.selectedInstitution}" style="width:278px" effect="fold"  filter="true" filterMatchMode="contains">
+                            <p:ajax listener="#{documentmodelView.onInstitutionChange}" update="selecCrearDocumentoPanel" process="@this" />
+                            <f:selectItems value="#{documentmodelView.institutions}" var="ins" itemLabel="#{ins.codigo} - #{ins.descripcion}" />
+                            <f:converter converterId="jsfUniversalConverter" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Unidad Gestora:" />
+                        <p:selectOneMenu id="in_ues" value="#{documentmodelView.selectedManagementUnit}" style="width:278px" effect="fold"  filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsConverter">
+                            <p:ajax  listener="#{documentmodelView.onManagementUnitChange}" update="selecCrearDocumentoForm" process="@this" />
+                            <f:selectItem itemLabel="NINGUNA" noSelectionOption="true" />
+                            <f:selectItems value="#{documentmodelView.managementUnits}" var="ug" itemLabel="#{ug.codigo} - #{ug.descripcion}" />
+                            <f:converter converterId="jsfUniversalConverter" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Tipo de Documento:" for="cboTipoDocumento" rendered="#{documentmodelView.multiple}"/>
+                        <p:selectOneMenu id="cboTipoDocumento" widgetVar="idClasificador" value="#{documentmodelView.currentDocument.typeByFlow.type.code}" style="width:175px" effect="fold"  filter="true" filterMatchMode="contains" rendered="#{documentmodelView.multiple}"  >
+                            <p:ajax  listener="#{documentmodelView.onDocumentTypeChange}" update="selecCrearDocumentoForm" process="@this" />
+                            <f:selectItem itemLabel="SELECCIONE" noSelectionOption="true" />
+                            <f:selectItems value="#{documentmodelView.documentTypeSelectItems}"  />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+
+                    <ui:insert name="beforeGridCreateBody" />
+
+                    <p:panelGrid columns="#{createDocumentGridColumns}" columnClasses="w200" id="panelSendCreaDoc" style="width: 100%; font-size:16px !important;" >
+                        <ui:insert name="beforeCreateBody" />
+
+
+                        <p:outputLabel value="C&#243;digo:" for="codigo"/>
+                        <p:inputText id="codigo" value="#{documentmodelView.currentDocument.documentNumber}" disabled="#{not(documentmodelView.inputDocumentNumberEnabled)}" required="true"></p:inputText>
+
+                        <p:outputLabel value="Nombre:" for="descripcion"/>
+                        <p:inputText id="descripcion" value="#{documentmodelView.currentDocument.description}" required="true"></p:inputText>
+
+                        <ui:insert name="createBody" />
+                    </p:panelGrid>
+
+                    <p:outputPanel id="afterGridCreateBody-panel">
+                        <ui:insert name="afterGridCreateBody" />
+                    </p:outputPanel>
+
+                    <p:spacer width="100%" height="10px"></p:spacer>
+                    <p:outputPanel style="width: 100%; font-size:16px !important;">
+                        <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{documentmodelView.create}" onstart="PF('statusDialog').show()"  
+                                         oncomplete="handleSubmit(xhr, status, args,'CreaDocumentoDlg')"  
+                                         update="document-detail documentosListForm selecCrearDocumentoForm"
+                                         styleClass="ui-priority-primary" >
+                        </p:commandButton>
+
+                        <p:spacer width="7" />
+                        <p:commandButton id="cancelButton" icon="fa  fa-undo" styleClass="RedButton" value="#{safiCommonBundle.Cancel}" onclick="PF('CreaDocumentoDlg').hide()" />
+                    </p:outputPanel>
+                </p:outputPanel>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,206 @@
+<ui:component
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:cc="http://java.sun.com/jsf/composite"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui"
+    xmlns:of="http://omnifaces.org/functions">
+
+    <cc:interface>
+        <cc:attribute name="documentoClasificadorObject" default=""/>
+        <cc:attribute name="institucion" default=""/>
+        <cc:attribute name="institucionOrganismoRector" default=""/>
+        <cc:attribute name="tipoControlPresupuestario" default=""/>
+        <cc:attribute name="tipoSubTipoPresupuesto" default=""/>
+        <cc:attribute name="controlPresupuestarioBase" default=""/>
+		<cc:attribute name="ue" default=""/>
+		<cc:attribute name="ufi" default=""/>
+		<cc:attribute name="anioDesde" default=""/>
+		<cc:attribute name="anioHasta" default=""/>
+		<cc:attribute name="render" default=""/>
+                <cc:attribute name="viewMODF" default="true"/>
+                <cc:attribute name="gestionDoc" default="true"/>
+    </cc:interface>
+
+    <cc:implementation>
+    
+	    <c:choose>
+	    	<c:when test="#{not empty cc.attrs.render}"> 
+	    		    	
+		    	<h:panelGroup id="headerDocumento" rendered="#{not empty cc.attrs.documentoClasificadorObject.id}">			
+					<h:panelGroup>
+						<ui:param name="consolidado"
+							value="#{cc.attrs.documentoClasificadorObject.descripcion} - CONSOLIDADO" />
+						<ui:param name="noConsolidado"
+							value="#{cc.attrs.documentoClasificadorObject.descripcion}" />
+						<ui:param name="isNull"
+							value="#{cc.attrs.documentoClasificadorObject.numeroDocumento.toString()}" />
+						<div align="center">
+                                                        <h:outputText rendered="#{cc.attrs.gestionDoc}"
+								value="#{isNull eq null ? consolidado : noConsolidado}"
+								style="font-size: 25px; " />
+                                                        <h:outputText rendered="#{cc.attrs.gestionDoc == false}"
+								value="#{noConsolidado}"
+								style="font-size: 25px; " />
+						</div>
+						<br></br>		
+						<br></br>	
+					
+						<p:panel>
+							<h:panelGrid columns="2" cellpadding="5"
+								style="border-top: 0px; width: 100%; table-layout:fixed; font-size: 13px;">
+								<h:panelGrid columns="2" cellpadding="8">
+									<h:outputText value="FECHA:" />
+									<h:outputLabel
+										value="#{of:formatDate(cc.attrs.documentoClasificadorObject.fechaCreacion, 'dd/MM/yyyy hh:mm:ss a')}" />
+								
+                                                                        <h:outputText value="DIRECCIÓN GENERAL DEL PRESUPUESTO " rendered="#{cc.attrs.documentoClasificadorObject.tipoDocumentoClasificador.code=='PROGR'}" />
+									<h:outputText value="" rendered="#{cc.attrs.documentoClasificadorObject.tipoDocumentoClasificador.code=='PROGR'}" style="padding: 5px;"  />
+									<h:outputText value="INSTITUCIÓN: " rendered="#{not empty cc.attrs.institucion}" />
+                                     <h:outputText value="#{cc.attrs.institucion}" rendered="#{not empty cc.attrs.institucion}" style="padding: 5px;" />
+                                                                        
+                                    <!-- nuevos parametros -->
+									<h:outputText value="INSTITUCIÓN/ORGANISMO RECTOR: " rendered="#{not empty cc.attrs.institucionOrganismoRector}" />
+                                    <h:outputText value="#{cc.attrs.institucionOrganismoRector}" rendered="#{not empty cc.attrs.institucionOrganismoRector}" style="padding: 5px;" />
+                                    
+                                    <h:outputText value="TIPO DE CONTROL PRESUPUESTARIO: " rendered="#{not empty cc.attrs.tipoControlPresupuestario}" />
+                                    <h:outputText value="#{cc.attrs.tipoControlPresupuestario}" rendered="#{not empty cc.attrs.tipoControlPresupuestario}" style="padding: 5px;" />
+                                    
+                                    <h:outputText value="TIPO/SUBTIPO DE PRESUPUESTO: " rendered="#{not empty cc.attrs.tipoSubTipoPresupuesto}" />
+                                    <h:outputText value="#{cc.attrs.tipoSubTipoPresupuesto}" rendered="#{not empty cc.attrs.tipoSubTipoPresupuesto}" style="padding: 5px;" />
+                                    
+                                    <h:outputText value="CONTROL PRESUPUESTARIO BASE: " rendered="#{not empty cc.attrs.controlPresupuestarioBase}" />
+                                    <h:outputText value="#{cc.attrs.controlPresupuestarioBase}" rendered="#{not empty cc.attrs.controlPresupuestarioBase}" style="padding: 5px;" />
+									<!-- ******** -->	
+									
+									<h:outputText value="UFI: " rendered="#{not empty cc.attrs.ufi}"  />
+									<h:outputText value="#{cc.attrs.ufi}" rendered="#{not empty cc.attrs.ufi}" 
+										style="padding: 5px;" />
+									
+									<h:outputText value="UE: "  rendered="#{not empty cc.attrs.ue}" />
+									<h:outputText value="#{cc.attrs.ue}" rendered="#{not empty cc.attrs.ue}" 
+										style="padding: 5px;" />
+								</h:panelGrid>
+		
+								<h:panelGrid columns="2" cellpadding="8">
+									<h:outputText value="DOCUMENTO No.:" />
+									<h:outputText
+										value="#{cc.attrs.documentoClasificadorObject.numeroDocumento}" />
+		
+									<h:outputText value="ESTADO:" />
+									<h:outputText
+										value="#{cc.attrs.documentoClasificadorObject.etapaActual.nombre}" />
+									
+									<h:outputText value="AÑO DESDE: " rendered="#{not empty cc.attrs.anioDesde}" />
+									<h:outputText value="#{cc.attrs.anioDesde}" rendered="#{not empty cc.attrs.anioDesde}"
+										style="padding: 5px;" />
+										
+									<h:outputText value="AÑO HASTA: " rendered="#{not empty cc.attrs.anioHasta}"/>
+									<h:outputText value="#{cc.attrs.anioHasta}" rendered="#{not empty cc.attrs.anioHasta}"
+										style="padding: 5px;" />
+									<!-- nuevos parametros -->
+									<h:outputText value="MONTO DE REFERENCIA: " rendered="#{not empty cc.attrs.montoReferencia}" />
+                                    <h:outputText value="#{cc.attrs.montoReferencia}" rendered="#{not empty cc.attrs.montoReferencia}" style="padding: 5px;" />
+                                    <h:outputText value="MONTO CONSOLIDADO: " rendered="#{not empty cc.attrs.montoConsolidado}" />
+                                    <h:outputText value="#{cc.attrs.montoConsolidado}" rendered="#{not empty cc.attrs.montoConsolidado}" style="padding: 5px;" />
+									<!-- ******** -->	
+								</h:panelGrid>
+		
+							</h:panelGrid>
+						</p:panel>
+
+                                                <h:panelGroup rendered="#{cc.attrs.gestionDoc}">
+                                                    <p:separator styleClass="lineseparator" />
+
+                                                    <h:outputText value="TIPO DE REGISTRO: " />
+                                                    <h:outputText value="CREACIÓN" style="padding: 5px;" />
+                                                    <p:selectBooleanCheckbox disabled="true"
+                                                                             value="#{cc.attrs.documentoClasificadorObject.tipoCambioClasificador.code eq 'CRE'}" />
+                                                    <h:outputText value="MODIFICACIÓN" style="padding: 5px;"
+                                                                  rendered="#{cc.attrs.viewMODF}"  />
+                                                    <p:selectBooleanCheckbox disabled="true"
+                                                                             value="#{cc.attrs.documentoClasificadorObject.tipoCambioClasificador.code eq 'MOD'}"
+                                                                             rendered="#{cc.attrs.viewMODF}" />
+
+                                                    <p:separator styleClass="lineseparator" />
+                                                </h:panelGroup>
+
+
+					</h:panelGroup>
+			</h:panelGroup>
+	    	
+	    	
+	    	
+	    	</c:when>
+	    	<c:otherwise>	    	
+		    	 <h:panelGroup id="headerDocumento" rendered="#{not empty cc.attrs.documentoClasificadorObject}">
+			            <h:panelGroup rendered="#{cc.attrs.documentoClasificadorObject.grupo.tipoAuditoria.toString()=='DOCUMENTO'}">
+			                <p:separator styleClass="lineseparator" />
+			
+			                <ui:param name="consolidado" value="#{cc.attrs.documentoClasificadorObject.descripcion} - CONSOLIDADO" /> 
+			                <ui:param name="noConsolidado" value="#{cc.attrs.documentoClasificadorObject.descripcion}" /> 
+			                <ui:param name="isNull" value="#{cc.attrs.documentoClasificadorObject.documento}"/>
+			                <div align="center">  
+			                <h:outputText
+			                    value="#{isNull eq null ? consolidado : noConsolidado}" 
+			                    style="font-size: 25px; " />
+			                </div>
+			                <p:separator styleClass="lineseparator" />
+			                <p:panel>  
+			                    <h:panelGrid columns="2" cellpadding="5"
+			                                 style="border-top: 0px; width: 100%; table-layout:fixed;">					
+			                        <h:panelGrid columns="2" cellpadding="8" >
+			                            <h:outputText value="FECHA:" />
+			                            <h:outputLabel value="#{of:formatDate(cc.attrs.documentoClasificadorObject.fechaCreacion, 'dd/MM/yyyy hh:mm:ss a')}" />
+			                            <h:outputText value="INSTITUCIÓN: " rendered="#{cc.attrs.documentoClasificadorObject.institucion != null}"/>
+			                            <h:outputText value="#{cc.attrs.documentoClasificadorObject.institucion.codigo} - #{cc.attrs.documentoClasificadorObject.institucion.descripcion}"
+			                                          style="padding: 5px;" rendered="#{cc.attrs.documentoClasificadorObject.institucion != null}"/>
+			                            
+<!-- 			                            <h:outputText value="" rendered="#{cc.attrs.documentoClasificadorObject.direccionHeader != null}"/> -->
+			                            <h:outputText value="#{cc.attrs.documentoClasificadorObject.direccionHeader.description}"
+			                                          style="padding: 5px;" rendered="#{cc.attrs.documentoClasificadorObject.direccionHeader != null}"/>              
+			                                          
+			                        </h:panelGrid>
+			
+			                        <h:panelGrid columns="2" cellpadding="8" >
+			                            <h:outputText value="DOCUMENTO No.:" />
+			                            <h:outputText value="#{cc.attrs.documentoClasificadorObject.numeroDocumento}" />
+			                            
+			
+			                            <h:outputText value="ESTADO:" rendered="#{not empty isNull}"/>
+			                            <h:outputText value="#{cc.attrs.documentoClasificadorObject.etapaActual.nombre}" rendered="#{not empty isNull}" />
+			                            <h:panelGroup rendered="#{!not empty isNull}"/>
+			                            <h:panelGroup rendered="#{!not empty isNull}"/>
+			                        </h:panelGrid>
+			
+			                    </h:panelGrid>
+			                </p:panel>
+			
+			                <h:panelGroup>
+			                    <p:separator styleClass="lineseparator" />
+			
+			                    <h:outputText value="TIPO DE REGISTRO: " />
+			                    <h:outputText value="CREACIÓN" style="padding: 5px;" /> <p:selectBooleanCheckbox disabled="true" value="#{cc.attrs.documentoClasificadorObject.tipoCambioClasificador.code eq 'CRE'}"/> 
+			                    <h:outputText value="MODIFICACIÓN" style="padding: 5px;" /> <p:selectBooleanCheckbox disabled="true" value="#{cc.attrs.documentoClasificadorObject.tipoCambioClasificador.code eq 'MOD'}"/>
+			
+			                    <p:separator styleClass="lineseparator" />
+			                </h:panelGroup>
+			
+			            </h:panelGroup>
+			        </h:panelGroup>
+	    	
+	    	</c:otherwise> 
+	    	
+	    </c:choose>
+    
+    
+    
+               
+       
+
+    </cc:implementation>
+
+</ui:component>

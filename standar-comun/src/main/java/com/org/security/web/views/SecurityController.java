@@ -96,6 +96,31 @@ public class SecurityController implements Serializable {
 		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		firstSubmenu.addElement(item);
+		
+		DefaultSubMenu advanceOptionsMenu = new DefaultSubMenu("Opciones Avanzadas");
+		
+		item = new DefaultMenuItem();
+		item.setValue("Exportar Informacion");
+		item.setTarget("/security/role/list.xhtml");
+		item.setIcon("icon-hyperlink");
+		item.setCommand("#{securityController.onMenuSelect}");
+		advanceOptionsMenu.addElement(item);
+		
+		item = new DefaultMenuItem();
+		item.setValue("Importar Informacion");
+		item.setTarget("/security/role/list.xhtml");
+		item.setIcon("icon-hyperlink");
+		item.setCommand("#{securityController.onMenuSelect}");
+		advanceOptionsMenu.addElement(item);
+		
+		item = new DefaultMenuItem();
+		item.setValue("Respaldo Automatico");
+		item.setTarget("/security/role/list.xhtml");
+		item.setIcon("icon-hyperlink");
+		item.setCommand("#{securityController.onMenuSelect}");
+		advanceOptionsMenu.addElement(item);
+		
+		firstSubmenu.addElement(advanceOptionsMenu);
 
 		model.addElement(firstSubmenu);
 

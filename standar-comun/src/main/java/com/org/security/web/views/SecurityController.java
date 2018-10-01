@@ -96,26 +96,29 @@ public class SecurityController implements Serializable {
 		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		firstSubmenu.addElement(item);
+	
+		DefaultSubMenu crudMenu = new DefaultSubMenu("Mantenimiento");
+		item = new DefaultMenuItem();
+		item.setValue("Empleados");
+		item.setTarget("/administration/crud/index.xhtml");
+		item.setIcon("icon-hyperlink");
+		item.setCommand("#{securityController.onMenuSelect}");
+		crudMenu.addElement(item);
+		
+		firstSubmenu.addElement(crudMenu);
 		
 		DefaultSubMenu advanceOptionsMenu = new DefaultSubMenu("Opciones Avanzadas");
 		
 		item = new DefaultMenuItem();
-		item.setValue("Exportar Informacion");
-		item.setTarget("/security/role/list.xhtml");
-		item.setIcon("icon-hyperlink");
-		item.setCommand("#{securityController.onMenuSelect}");
-		advanceOptionsMenu.addElement(item);
-		
-		item = new DefaultMenuItem();
-		item.setValue("Importar Informacion");
-		item.setTarget("/security/role/list.xhtml");
+		item.setValue("Exportar/Importar Informacion");
+		item.setTarget("/administration/advancedOptions/expimpInformacion.xhtml");
 		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		advanceOptionsMenu.addElement(item);
 		
 		item = new DefaultMenuItem();
 		item.setValue("Respaldo Automatico");
-		item.setTarget("/security/role/list.xhtml");
+		item.setTarget("/administration/advancedOptions/respaldo.xhtml");
 		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		advanceOptionsMenu.addElement(item);
@@ -132,67 +135,25 @@ public class SecurityController implements Serializable {
 
 		DefaultMenuItem item = new DefaultMenuItem();
 
-		item.setValue("Asistencia y conducta");
-		item.setTarget("/students/consultaAsistencia.xhtml");
-		item.setIcon("icon-search");
-		item.setCommand("#{securityController.onMenuSelect}");
-		firstSubmenu.addElement(item);
-		
-		item = new DefaultMenuItem();
-		item.setValue("Entrega de tareas ex-aula");
-		item.setTarget("/students/subirtareas.xhtml");
+		item.setValue("Empleados");
+		item.setTarget("/administration/crud/index.xhtml");
 		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		firstSubmenu.addElement(item);
-
-		item = new DefaultMenuItem();
-		item.setValue("Calificaciones");
-		item.setTarget("/students/consultaNotas.xhtml");
-		item.setIcon("fa fa-list-alt");
-		item.setCommand("#{securityController.onMenuSelect}");
-		firstSubmenu.addElement(item);
-
 
 		model.addElement(firstSubmenu);
 	}
 
 	private void guestMenu() {
-
+		
 		DefaultSubMenu firstSubmenu = new DefaultSubMenu("Menú");
 		firstSubmenu.setIcon("icon-menu");
 
 		DefaultMenuItem item = new DefaultMenuItem();
-		item.setValue("Asistencia");
-		item.setTarget("/teachers/asistencia.xhtml");
-		item.setIcon("icon-feather");
-		item.setCommand("#{securityController.onMenuSelect}");
-		firstSubmenu.addElement(item);
-
-		item = new DefaultMenuItem();
-		item.setValue("Actividades ex-aula");
-		item.setTarget("/teachers/exaula.xhtml");
-		item.setIcon("fa fa-folder-open-o");
-		item.setCommand("#{securityController.onMenuSelect}");
-		firstSubmenu.addElement(item);
 		
-		item = new DefaultMenuItem();
-		item.setValue("Descargar tareas");
-		item.setTarget("/teachers/exaulaDownload.xhtml");
-		item.setIcon("fa fa-folder-open-o");
-		item.setCommand("#{securityController.onMenuSelect}");
-		firstSubmenu.addElement(item);
-
-		item = new DefaultMenuItem();
-		item.setValue("Control de conducta");
-		item.setTarget("/teachers/conducta.xhtml");
-		item.setIcon("fa fa-folder-open-o");
-		item.setCommand("#{securityController.onMenuSelect}");
-		firstSubmenu.addElement(item);
-		
-		item = new DefaultMenuItem();
-		item.setValue("Calificaciones de asignaturas");
-		item.setTarget("/teachers/calificaciones.xhtml");
-		item.setIcon("icon-book");
+		item.setValue("Empleados");
+		item.setTarget("/administration/crud/index.xhtml");
+		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		firstSubmenu.addElement(item);
 

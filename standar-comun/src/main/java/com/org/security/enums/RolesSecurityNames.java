@@ -2,13 +2,11 @@ package com.org.security.enums;
 
 public enum RolesSecurityNames {
 
-	ADMIN("admin", "Administrador"),
+	ADMINS("admins", "Administradores"),
 
-	ESTUDENT("estudent", "Estudiante"),
+	TEC("tec", "Tecnico"),
 
-	TEACHER("teacher", "Maestro"),
-
-	MANAGER("manager", "Director");
+	GUEST("guest", "Invitado");
 
 	String code;
 

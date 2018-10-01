@@ -5,6 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" 
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/template/layout.xhtml">
 
 	 <ui:define name="head">
@@ -110,7 +111,7 @@
 					<p:inputText value="#{empleadoView.selectedItem.cargo}" />
 
 					<p:outputLabel value="Salario" />
-					<p:inputNumber decimalPlaces="2" decimalSeparator="."
+					<pe:inputNumber decimalPlaces="2" decimalSeparator="." thousandSeparator=","
 						value="#{empleadoView.selectedItem.salario}" />
 
 					<p:outputLabel value="Fecha Contratacion" />

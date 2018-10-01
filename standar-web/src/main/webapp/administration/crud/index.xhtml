@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	template="/template/layout.xhtml">
+
+	 <ui:define name="head">
+
+    </ui:define>
+
+    <ui:define name="subheader">
+
+    </ui:define>
+
+    <ui:define name="content">
+		<h:form id="crudForm">
+
+			<h2>Listado de Registros</h2>
+			<p:separator />
+
+			<p:dataTable id="dtCrud" widgetVar="dtCrud" var="empleado"
+				rowKey="#{empleado.id}" selection="#{empleadoView.selectedItem}"
+				selectionMode="single" value="#{empleadoView.empleadosLazy}"
+				rows="10" paginator="true" paginatorPosition="bottom" lazy="true">
+
+				<p:column headerText="Acciones">
+					<p:commandButton icon="fa fa-pencil"
+						oncomplete="PF('empleadosDlg').show();"
+						actionListener="#{empleadoView.preparedUpdate(empleado)}"
+						update="dlgEmpleados" />
+
+					<p:commandButton icon="fa fa-trash"
+						actionListener="#{empleadoView.delete(empleado)}" update="crudForm:dtCrud">
+						<p:confirm header="Eliminacion"
+							message="Desea eliminar este registro?" />
+					</p:commandButton>
+				</p:column>
+
+				<p:column headerText="Codigo" filterBy="#{empleado.codigo}">
+	        		#{empleado.codigo}
+	        	</p:column>
+
+				<p:column headerText="Nombre" filterBy="#{empleado.name}">
+	        		#{empleado.name}
+	        	</p:column>
+
+				<p:column headerText="Cargo" filterBy="#{empleado.cargo}">
+	        		#{empleado.cargo}
+	        	</p:column>
+
+				<p:column headerText="Salario" filterBy="#{empleado.salario}">
+	        		#{empleado.salario}
+	        	</p:column>
+
+				<p:column headerText="Fecha Contratacion"
+					filterBy="#{empleado.fechaContratacion}">
+					<h:outputText value="#{empleado.fechaContratacion}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+
+
+			</p:dataTable>
+
+			<br />
+
+			<p:commandButton value="Nuevo" icon="fa fa-plus"
+				oncomplete="PF('empleadosDlg').show();" update="dlgEmpleados"
+				action="#{empleadoView.preparedCreate}" process="@this" />
+
+			<br />
+			<br />
+
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Si" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+		<p:dialog id="dlgEmpleados" widgetVar="empleadosDlg"
+			header="#{empleadoView.statusView.code eq 1 ? 'Agregar' : 'Editar'} Empleado"
+			responsive="true" modal="true" width="40%" position="center"
+			closeOnEscape="true">
+
+			<h:form id="editableForm">
+				<p:panelGrid id="pgDataEmpleado" columns="2" layout="grid">
+					<p:outputLabel value="Codigo" />
+					<h:panelGroup>
+						<p:inputText id="txtCodigo"
+							value="#{empleadoView.selectedItem.codigo}" required="true"
+							requiredMessage="Ingrese Codigo" />
+						<p:message for="txtCodigo" />
+					</h:panelGroup>
+
+					<p:outputLabel value="Nombre" />
+					<h:panelGroup>
+						<p:inputText id="txtNombre"
+							value="#{empleadoView.selectedItem.name}" required="true"
+							requiredMessage="Ingrese Nombre" />
+						<p:message for="txtNombre" />
+					</h:panelGroup>
+
+					<p:outputLabel value="Cargo" />
+					<p:inputText value="#{empleadoView.selectedItem.cargo}" />
+
+					<p:outputLabel value="Salario" />
+					<pe:inputNumber decimalPlaces="2" decimalSeparator="." thousandSeparator=","
+						value="#{empleadoView.selectedItem.salario}" />
+
+					<p:outputLabel value="Fecha Contratacion" />
+					<h:panelGroup>
+						<p:calendar id="calFechaContratacion" showOn="button"
+							readonlyInput="true" pattern="dd/MM/yyyy" required="true"
+							requiredMessage="Ingrese Fecha contratacion"
+							value="#{empleadoView.selectedItem.fechaContratacion}" />
+						<p:message for="calFechaContratacion" />
+					</h:panelGroup>
+
+				</p:panelGrid>
+
+				<br />
+
+				<p:commandButton value="Guardar" icon="fa fa-save"
+					rendered="#{empleadoView.statusView.code eq 1}"
+					validateClient="true" update="@form crudForm:dtCrud"
+					oncomplete="PF('empleadosDlg').hide();"
+					action="#{empleadoView.save}" />
+
+				<p:commandButton value="Actualizar" icon="fa fa-save"
+					rendered="#{empleadoView.statusView.code eq 2}"
+					validateClient="true" update="@form crudForm:dtCrud"
+					oncomplete="PF('empleadosDlg').hide();"
+					action="#{empleadoView.update}" />
+			</h:form>
+
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>

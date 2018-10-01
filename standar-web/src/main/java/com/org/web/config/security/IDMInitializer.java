@@ -72,7 +72,7 @@ public class IDMInitializer {
 			Group adminsGroup = addGroup(identityManager, GroupsSecurityRolesNames.ADMINS.getCode());
 			
 			// create admin role
-			Role adminRole = addRole(identityManager, RolesSecurityNames.ADMIN.getCode());
+			Role adminRole = addRole(identityManager, RolesSecurityNames.ADMINS.getCode());
 			
 			RelationshipManager relationshipManager = partitionManager.createRelationshipManager();
 

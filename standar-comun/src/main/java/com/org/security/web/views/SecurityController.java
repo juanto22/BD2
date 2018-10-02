@@ -136,7 +136,7 @@ public class SecurityController implements Serializable {
 		DefaultMenuItem item = new DefaultMenuItem();
 
 		item.setValue("Empleados");
-		item.setTarget("/administration/crud/index.xhtml");
+		item.setTarget("/tec/crud/index.xhtml");
 		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		firstSubmenu.addElement(item);
@@ -152,7 +152,7 @@ public class SecurityController implements Serializable {
 		DefaultMenuItem item = new DefaultMenuItem();
 		
 		item.setValue("Empleados");
-		item.setTarget("/administration/crud/index.xhtml");
+		item.setTarget("/guest/crud/index.xhtml");
 		item.setIcon("icon-hyperlink");
 		item.setCommand("#{securityController.onMenuSelect}");
 		firstSubmenu.addElement(item);

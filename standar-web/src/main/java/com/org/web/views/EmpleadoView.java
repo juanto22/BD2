@@ -1,7 +1,7 @@
 package com.org.web.views;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +9,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.hibernate.exception.GenericJDBCException;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Messages;
 import org.picketlink.Identity;
@@ -86,7 +88,18 @@ public class EmpleadoView implements Serializable {
 			empleadoService.insertarEmpleado(selectedItem);
 			Messages.create("Información").detail("Registro ingresado exitosamente").add();
 		} catch (Exception e) {
-			Messages.create("ERROR").detail("No se pudo ingresar").error().add();
+			if(e.getCause() instanceof GenericJDBCException) {
+				GenericJDBCException generic = (GenericJDBCException) e.getCause();
+				if(generic.getCause() instanceof SQLException) {
+					SQLException sql = (SQLException) generic.getCause();
+					Messages.create("ERROR").detail("No se pudo ingresar: " + sql.getMessage()).error().add();
+				}
+				e.getCause().getCause().getMessage();
+			}else {
+				Messages.create("ERROR").detail("No se pudo ingresar").error().add();
+			}
+			
+			
 		}
 		
 

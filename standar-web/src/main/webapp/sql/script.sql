@@ -104,23 +104,29 @@ FOR EACH ROW
 DECLARE
     user_type VARCHAR2(255);
     c_accion VARCHAR2(50);
+    c_user VARCHAR2(255); 
 BEGIN
-    select ROL.NAME INTO user_type from USERTYPEENTITY U INNER JOIN ROLETYPEENTITY ROL ON U.ROLID = ROL.ID where U.ID = :NEW.USER_ID;
-    
-    IF user_type = 'guest' THEN
+    IF DELETING THEN
+        c_accion := 'DELETING';
+        select ROL.NAME INTO user_type from USERTYPEENTITY U INNER JOIN ROLETYPEENTITY ROL ON U.ROLID = ROL.ID where U.ID = :OLD.USER_ID;
+        c_user := :OLD.USER_ID;
+    ELSE
+        select ROL.NAME INTO user_type from USERTYPEENTITY U INNER JOIN ROLETYPEENTITY ROL ON U.ROLID = ROL.ID where U.ID = :NEW.USER_ID;
+        c_user := :NEW.USER_ID;
         IF INSERTING THEN
             c_accion := 'INSERTING';
         END IF;
         IF UPDATING THEN
             c_accion := 'UPDATING';
         END IF;
-        IF DELETING THEN
-            c_accion := 'DELETING';
-        END IF;
-        insertar_control(c_accion, :NEW.USER_ID, sysdate, 'Falla');
+    END IF;
+        
+    IF user_type = 'guest' THEN
+       
+        insertar_control(c_accion, c_user, sysdate, 'Falla');
         RAISE_APPLICATION_ERROR(-20000, 'Usuario invitado no puede modifcar la tabla');
     ELSE
-        insertar_control(c_accion, :NEW.USER_ID, sysdate, 'Exito');
+        insertar_control(c_accion, c_user, sysdate, 'Exito');
     END IF;
 END CONTROLEMPLEADOS;
 

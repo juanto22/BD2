@@ -208,3 +208,55 @@ BEGIN
 end EMP_TXT;
 
 call EMP_TXT('EMPLEADO', 'MYFILENAME');
+
+
+--PARA IMPORTAR la tabla empleado, final
+
+CREATE OR REPLACE PROCEDURE IMP_TXT 
+(
+    p_fileDir  IN VARCHAR2,
+    p_fileName IN VARCHAR2
+) 
+IS
+    v_file UTL_FILE.FILE_TYPE;
+    v_line  VARCHAR2(100); 
+    sql_stmt VARCHAR2(255);
+    c_values VARCHAR(255);
+BEGIN
+    v_file := UTL_FILE.FOPEN(p_FileDir, p_FileName, 'r');
+
+    LOOP
+        BEGIN
+          UTL_FILE.GET_LINE(v_file, v_line);
+        EXCEPTION
+          WHEN NO_DATA_FOUND THEN
+            EXIT;
+        END;
+    
+        FOR i IN (SELECT trim(regexp_substr(v_line, '[^,]+', 1, LEVEL)) l FROM dual CONNECT BY LEVEL <= regexp_count(v_line, ',') + 1)
+        LOOP
+            IF regexp_like(i.l, '^\d+(\.\d+)?$') then
+              c_values := c_values || i.l || ',';
+            ELSE
+              c_values :=  c_values || ''''|| i.l || ''',';
+            end if;
+            
+        END LOOP;
+        
+        c_values := SUBSTR(c_values, 1, LENGTH(c_values) - 1);
+        
+        dbms_output.put_line(c_values);
+        sql_stmt := 'INSERT INTO EMPLEADO VALUES ('|| c_values ||')';
+        dbms_output.put_line('query: ' || sql_stmt);
+        EXECUTE IMMEDIATE sql_stmt;
+        
+    END LOOP;
+
+    UTL_FILE.FCLOSE(v_file);
+
+    COMMIT;
+    EXCEPTION
+    WHEN OTHERS THEN
+        UTL_FILE.FCLOSE(v_file);
+    RAISE;
+END IMP_TXT;

@@ -12,6 +12,7 @@ import javax.inject.Named;
 import org.omnifaces.cdi.ViewScoped;
 import org.omnifaces.util.Messages;
 import org.picketlink.Identity;
+import org.primefaces.model.UploadedFile;
 
 import com.org.security.identity.model.UserTypeEntity;
 import com.org.security.identity.stereotype.User;
@@ -44,6 +45,8 @@ public class AdvanceOptionsView implements Serializable {
 	
 	private List<SelectItem> tablesList;
 	
+	private UploadedFile file;
+	
 	
 	/**
 	 * Para exportar/importar
@@ -55,10 +58,10 @@ public class AdvanceOptionsView implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		type = "IMP";
 		statusView = ViewStatus.NONE;
 		tablesList = empleadoService.getTablesName();
 	}
-
 	
 	public void exportTable() {
 		try {
@@ -66,6 +69,15 @@ public class AdvanceOptionsView implements Serializable {
 			Messages.create("EXPORTACION").detail("Se exporto a .txt exitosamente").add();
 		} catch (Exception e) {
 			Messages.create("EXPORTACION").detail("Ocurrio un error al realizar la exportacion de la tabla").error().add();
+		}
+	}
+	
+	public void impTable() {
+		try {
+			empleadoService.doImpTXT(file.getFileName());
+			Messages.create("IMPORTACION").detail("Se importo el .txt exitosamente").add();
+		} catch (Exception e) {
+			Messages.create("IMPORTACION").detail("Ocurrio un error al realizar la importacion del archivo").error().add();
 		}
 	}
 

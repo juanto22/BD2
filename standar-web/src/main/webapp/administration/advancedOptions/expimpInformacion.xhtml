@@ -33,32 +33,18 @@
 
 			<p:messages showDetail="false" closable="true" />
 
-			<p:outputPanel rendered="#{advanceOptionsView.type eq 'EXP'}">
-				<p:panelGrid id="pgDataEmpleado" columns="2" layout="grid">
-
-
-					<p:outputLabel value="Nombre de Exportacion" />
-					<p:inputText required="true"
-						requiredMessage="Debe Ingresar Nombre de Respaldo"
-						value="#{advanceOptionsView.fileName}" />
-
-					<p:outputLabel value="Tabla" />
-					<p:selectOneMenu required="true" requiredMessage="Seleccione tabla"
-						id="somSchemaTableEtc"
-						value="#{advanceOptionsView.tableName}">
-						<f:selectItem itemLabel="Seleccione" />
-						<f:selectItems value="#{advanceOptionsView.tablesList}" />
-					</p:selectOneMenu>
+			
+			
+			<p:outputPanel rendered="#{advanceOptionsView.type ne 'EXP'}">
+				<p:panelGrid id="pgDataImport" columns="2" layout="grid">
+					<p:outputLabel value="Seleccione Archivo" />
+					<p:fileUpload value="#{advanceOptionsView.file}" mode="simple" skinSimple="true"/>
 				</p:panelGrid>
+				
+				<p:commandButton value="Importar" icon="fa fa-plus" ajax="false" update="@form"
+					action="#{advanceOptionsView.impTable}" />
+				
 			</p:outputPanel>
-
-			<br />
-
-			<p:commandButton value="Exportar" icon="fa fa-plus" update="@form"
-				action="#{advanceOptionsView.exportTable}" />
-
-			<br />
-			<br />
 
 
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

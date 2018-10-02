@@ -160,5 +160,26 @@ public class EmpleadoService extends BaseService<Empleado, Long> {
 		
 		return response;
 	}
+	
+	public List<Object> doImpTXT(String fileName) throws Exception {
+		List<Object> response = new ArrayList<>();
+		
+		doWork(new Work() {
+			@Override
+			public void execute(Connection connection) throws SQLException {
+				String procedureName = "{call  IMP_TXT(?,?)}";
+				try (CallableStatement callable = connection.prepareCall(procedureName)) {
+					callable.setString(1, "EXPORT_PLSQLP");
+					callable.setString(2, fileName);
+					
+					boolean ret = callable.execute();
+				}
+			}
+			
+		});
+		
+		
+		return response;
+	}
 
 }

@@ -33,7 +33,28 @@
 
 			<p:messages showDetail="false" closable="true" />
 
-			
+			<p:outputPanel rendered="#{advanceOptionsView.type eq 'EXP'}">
+				<p:panelGrid id="pgDataExport" columns="2" layout="grid">
+
+
+					<p:outputLabel value="Nombre de Exportacion" />
+					<p:inputText required="true"
+						requiredMessage="Debe Ingresar Nombre de Respaldo"
+						value="#{advanceOptionsView.fileName}" />
+
+					<p:outputLabel value="Tabla" />
+					<p:selectOneMenu required="true" requiredMessage="Seleccione tabla"
+						id="somSchemaTableEtc" value="#{advanceOptionsView.tableName}">
+						<f:selectItem itemLabel="Seleccione" />
+						<f:selectItems value="#{advanceOptionsView.tablesList}" />
+					</p:selectOneMenu>
+				</p:panelGrid>
+
+				<br />
+
+				<p:commandButton value="Exportar" icon="fa fa-plus" update="@form"
+					action="#{advanceOptionsView.exportTable}" />
+			</p:outputPanel>
 			
 			<p:outputPanel rendered="#{advanceOptionsView.type ne 'EXP'}">
 				<p:panelGrid id="pgDataImport" columns="2" layout="grid">

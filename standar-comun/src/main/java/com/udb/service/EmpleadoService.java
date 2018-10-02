@@ -29,6 +29,80 @@ public class EmpleadoService extends BaseService<Empleado, Long> {
 		return departamentoRepository;
 	}
 	
+	public List<Object> insertarEmpleado(Empleado empleado) throws Exception {
+        List<Object> response = new ArrayList<>();
+
+       
+			doWork(new Work() {
+			    @Override
+			    public void execute(Connection connection) throws SQLException {
+			        String procedureName = "{call  insertar_empleado(?,?,?,?,?,?)}";
+			        try (CallableStatement callable = connection.prepareCall(procedureName)) {
+			            callable.setString(1, empleado.getCargo());
+			            callable.setString(2, empleado.getCodigo());
+			            callable.setDate(3, new java.sql.Date(empleado.getFechaContratacion().getTime()));
+			            callable.setString(4, empleado.getName());
+			            callable.setDouble(5, empleado.getSalario());
+			            callable.setString(6, empleado.getLastUser().getId());
+			            
+			            boolean ret = callable.execute();
+			        }
+			    }
+
+			});
+		
+
+        return response;
+    }
+	
+	public List<Object> updateEmpleado(Empleado empleado) throws Exception {
+		List<Object> response = new ArrayList<>();
+		
+		
+		doWork(new Work() {
+			@Override
+			public void execute(Connection connection) throws SQLException {
+				String procedureName = "{call  actualizar_empleado(?,?,?,?,?,?,?)}";
+				try (CallableStatement callable = connection.prepareCall(procedureName)) {
+					callable.setLong(1, empleado.getId());
+					callable.setString(2, empleado.getCargo());
+					callable.setString(3, empleado.getCodigo());
+					callable.setDate(4, new java.sql.Date(empleado.getFechaContratacion().getTime()));
+					callable.setString(5, empleado.getName());
+					callable.setDouble(6, empleado.getSalario());
+					callable.setString(7, empleado.getLastUser().getId());
+					
+					boolean ret = callable.execute();
+				}
+			}
+			
+		});
+		
+		
+		return response;
+	}
+	
+	public List<Object> eliminarEmpleado(Empleado empleado) throws Exception {
+		List<Object> response = new ArrayList<>();
+		
+		
+		doWork(new Work() {
+			@Override
+			public void execute(Connection connection) throws SQLException {
+				String procedureName = "{call  eliminar_empleado(?)}";
+				try (CallableStatement callable = connection.prepareCall(procedureName)) {
+					callable.setLong(1, empleado.getId());
+					
+					boolean ret = callable.execute();
+				}
+			}
+			
+		});
+		
+		
+		return response;
+	}
+	
 	public List<SelectItem> getTablesName() {
         
 		List<SelectItem> items = new ArrayList<SelectItem>();
@@ -43,16 +117,18 @@ public class EmpleadoService extends BaseService<Empleado, Long> {
         return items;
     }
 
-	public List<Object> doBackUpDataBase(Long idDocumento) throws Exception {
+	public List<Object> doBackUpDataBase(String jobMode, String expName, String schemaTableEtc) throws Exception {
         List<Object> response = new ArrayList<>();
 
        
 			doWork(new Work() {
 			    @Override
 			    public void execute(Connection connection) throws SQLException {
-			        String procedureName = "{call  detalleinformes(?)}";
+			        String procedureName = "{call  BACK_UP_DB(?,?,?)}";
 			        try (CallableStatement callable = connection.prepareCall(procedureName)) {
-			            callable.setLong(1, idDocumento);
+			            callable.setString(1, jobMode);
+			            callable.setString(2, expName);
+			            callable.setString(3, schemaTableEtc);
 
 			            boolean ret = callable.execute();
 			        }
@@ -63,5 +139,26 @@ public class EmpleadoService extends BaseService<Empleado, Long> {
 
         return response;
     }
+	
+	public List<Object> doTxtTable(String tableName, String fileName) throws Exception {
+		List<Object> response = new ArrayList<>();
+		
+		doWork(new Work() {
+			@Override
+			public void execute(Connection connection) throws SQLException {
+				String procedureName = "{call  EMP_TXT(?,?)}";
+				try (CallableStatement callable = connection.prepareCall(procedureName)) {
+					callable.setString(1, tableName);
+					callable.setString(2, fileName);
+					
+					boolean ret = callable.execute();
+				}
+			}
+			
+		});
+		
+		
+		return response;
+	}
 
 }

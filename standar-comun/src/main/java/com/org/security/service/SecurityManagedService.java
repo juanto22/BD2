@@ -72,6 +72,7 @@ public class SecurityManagedService {
 	}
 
 	public void saveUser(User user, Password password, Group group, Role role) {
+		user.setRolID(role.getId());
 		identityManager.add(user);
 		identityManager.updateCredential(user, password);
 		relationshipManager.add(new GroupMembership(user, group));

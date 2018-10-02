@@ -54,6 +54,9 @@ public class User extends AbstractIdentityType implements Account {
 
 	@AttributeProperty
 	private Date lastVisitDate;
+	
+	@AttributeProperty
+	private String rolID;
 
 	private User() {
 		this(null);

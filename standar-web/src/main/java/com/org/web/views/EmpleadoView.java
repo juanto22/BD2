@@ -46,6 +46,14 @@ public class EmpleadoView implements Serializable {
 	private ViewStatus statusView;
 	
 	private List<SelectItem> tablesList;
+	
+	/**
+	 * Para respaldo
+	 */
+	
+	private String jobMode;
+	private String expName;
+	private String schemaTableEtc;
 
 	@PostConstruct
 	public void init() {
@@ -74,15 +82,25 @@ public class EmpleadoView implements Serializable {
 
 	public void save() {
 		handleUser();
-		empleadoService.save(selectedItem);
-		Messages.create("Información").detail("Registro ingresado exitosamente").add();
+		try {
+			empleadoService.insertarEmpleado(selectedItem);
+			Messages.create("Información").detail("Registro ingresado exitosamente").add();
+		} catch (Exception e) {
+			Messages.create("ERROR").detail("No se pudo ingresar").error().add();
+		}
+		
 
 	}
 
 	public void update() {
 		handleUser();
-		empleadoService.save(selectedItem);
-		Messages.create("Información").detail("Registro actualizado exitosamente").add();
+		try {
+			empleadoService.updateEmpleado(selectedItem);
+			Messages.create("Información").detail("Registro actualizado exitosamente").add();
+		} catch (Exception e) {
+			Messages.create("ERROR").detail("No se pudo actualizar").error().add();
+		}
+		
 
 	}
 	
@@ -94,9 +112,23 @@ public class EmpleadoView implements Serializable {
 	}
 
 	public void delete(Empleado selectedItem) {
-		empleadoService.delete(selectedItem);
-		Messages.create("Información").detail("Registro eliminado exitosamente").add();
+		try {
+			empleadoService.eliminarEmpleado(selectedItem);
+			Messages.create("Información").detail("Registro eliminado exitosamente").add();
+		} catch (Exception e) {
+			Messages.create("ERROR").detail("No se pudo eliminar").error().add();
+		}
+		
 
+	}
+	
+	public void respaldoBD() {
+		try {
+			empleadoService.doBackUpDataBase(jobMode, expName, schemaTableEtc);
+			Messages.create("RESPALDO").detail("Respaldo realizado correctamente").add();
+		} catch (Exception e) {
+			Messages.create("RESPALDO").detail("Ocurrio un error al realizar el respaldo").error().add();
+		}
 	}
 
 }

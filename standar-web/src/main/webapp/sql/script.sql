@@ -1,3 +1,54 @@
+CREATE OR REPLACE DIRECTORY EXPORT_PLSQLP AS 'C:\Users\juan.renderos\Desktop\EXPDP-PLSQL';
+
+grant export full database to BDD2_LOCAL;
+
+GRANT READ ON DIRECTORY EXPORT_PLSQLP TO PUBLIC; 
+
+SELECT DIRECTORY_NAME, DIRECTORY_PATH FROM ALL_DIRECTORIES;
+
+--Insertar
+CREATE OR REPLACE PROCEDURE insertar_empleado
+(
+    e_cargo in EMPLEADO.CARGO%TYPE, 
+    e_codigo IN EMPLEADO.CODIGO%type, 
+    e_fecha_contratacion IN EMPLEADO.FECHACONTRATACION%type, 
+    e_name IN EMPLEADO.NAME%TYPE, 
+    e_salario IN EMPLEADO.SALARIO%TYPE,
+    e_userID IN VARCHAR2
+)
+IS
+BEGIN 
+    Insert into EMPLEADO values (SEQ_EMPLEADO.nextval, e_cargo, e_codigo, e_fecha_contratacion, e_name, e_salario, e_userID);
+    COMMIT WORK;
+END insertar_empleado;
+
+CREATE OR REPLACE PROCEDURE actualizar_empleado
+(
+    e_id IN EMPLEADO.ID%TYPE, 
+    e_cargo in EMPLEADO.CARGO%TYPE, 
+    e_codigo IN EMPLEADO.CODIGO%type, 
+    e_fecha_contratacion IN EMPLEADO.FECHACONTRATACION%type, 
+    e_name IN EMPLEADO.NAME%TYPE, 
+    e_salario IN EMPLEADO.SALARIO%TYPE, 
+    e_userID IN VARCHAR2
+)    
+IS
+BEGIN 
+    UPDATE EMPLEADO SET CARGO = e_cargo, CODIGO = e_codigo, FECHACONTRATACION = e_fecha_contratacion, NAME = e_name, SALARIO = e_salario, USER_ID = e_userID WHERE ID = e_id;
+    COMMIT WORK;
+END actualizar_empleado;
+
+CREATE OR REPLACE PROCEDURE eliminar_empleado
+(
+    e_id IN EMPLEADO.ID%TYPE
+) 
+IS
+BEGIN 
+    delete EMPLEADO where ID = e_id;  
+    DBMS_OUTPUT.put_line('¡Empleado Eliminado!');
+    COMMIT WORK;
+END eliminar_empleado;
+
 CREATE OR REPLACE PROCEDURE BACK_UP_DB
 (
 JOB_MODE IN VARCHAR2,
@@ -22,11 +73,10 @@ BEGIN
     --Agregar LOG
     DBMS_DATAPUMP.add_file(handle => handle, filename  => EXP_NAME || '.log', directory => 'EXPORT_PLSQLP', filetype  => DBMS_DATAPUMP.KU$_FILE_TYPE_LOG_FILE);
     
-    IF JOB_MODE = 'SCHEMA'
-    THEN
+    IF JOB_MODE = 'SCHEMA' THEN
         -- Exportar esquema
         DBMS_DATAPUMP.metadata_filter(handle => handle, name   => 'SCHEMA_EXPR', value  => '=''' || SCHEMA_TABLE || '''');
-    ELSE
+    ELSIF JOB_MODE = 'TABLE' THEN
         --Filter for the table
         DBMS_DATAPUMP.metadata_filter(handle => handle, name => 'NAME_LIST', VALUE => '''' || SCHEMA_TABLE || '''');
     END IF;
@@ -37,7 +87,7 @@ BEGIN
 END BACK_UP_DB;
 
 
-EXECUTE BACK_UP_DB('TABLE', 'TABLE_EXPR', 'EMPLEADO');
+call BACK_UP_DB('FULL', 'FULL_RESPALDO_TEST', 'EMPLEADO');
 
 --PARA EL MENEJO DE LA TABLA CONTROL
 
@@ -49,11 +99,106 @@ CREATE TABLE CONTROLEMPLEADO(
 );
 
 CREATE OR REPLACE TRIGGER CONTROLEMPLEADOS
-AFTER INSERT ON EMPLEADO
-REFERENCING NEW AS NEW 
+BEFORE INSERT OR UPDATE OR DELETE ON EMPLEADO
 FOR EACH ROW 
+DECLARE
+    user_type VARCHAR2(255);
+    c_accion VARCHAR2(50);
 BEGIN
-    :NEW.LASTUSER;
-    INSERT INTO CONTROLEMPLEADO (USUARIO, FECHA, DATONUEVO) VALUES(USER, SYSDATE, :NEW.DOCUMENTO);
+    select ROL.NAME INTO user_type from USERTYPEENTITY U INNER JOIN ROLETYPEENTITY ROL ON U.ROLID = ROL.ID where U.ID = :NEW.USER_ID;
+    
+    IF user_type = 'guest' THEN
+        IF INSERTING THEN
+            c_accion := 'INSERTING';
+        END IF;
+        IF UPDATING THEN
+            c_accion := 'UPDATING';
+        END IF;
+        IF DELETING THEN
+            c_accion := 'DELETING';
+        END IF;
+        insertar_control(c_accion, :NEW.USER_ID, sysdate, 'Falla');
+        RAISE_APPLICATION_ERROR(-20000, 'Usuario invitado no puede modifcar la tabla');
+    ELSE
+        insertar_control(c_accion, :NEW.USER_ID, sysdate, 'Exito');
+    END IF;
 END CONTROLEMPLEADOS;
 
+CREATE OR REPLACE PROCEDURE insertar_control
+(
+    c_accion in VARCHAR2, 
+    c_user IN VARCHAR2, 
+    c_fecha IN DATE, 
+    e_estado IN VARCHAR2
+)
+IS PRAGMA AUTONOMOUS_TRANSACTION;
+BEGIN 
+    INSERT INTO CONTROLEMPLEADO VALUES(c_accion, c_user, c_fecha, e_estado);
+    COMMIT WORK;
+END insertar_control;
+
+--PARA EXPORTAR UNA TABLA FINAL
+
+CREATE OR REPLACE PROCEDURE EMP_TXT
+(
+TABLE_NAME IN VARCHAR2,
+TXT_FILE_NAME IN VARCHAR2
+) 
+IS
+    p_query varchar2(32767) := 'select * from ' || TABLE_NAME;
+    l_theCursor     integer default dbms_sql.open_cursor;
+    l_columnValue   varchar2(4000);
+    l_status        integer;
+    l_descTbl       dbms_sql.desc_tab;
+    l_colCnt        number;
+    n number := 0;
+    l_values        varchar2(32767);
+    v_file  UTL_FILE.FILE_TYPE;
+  procedure p(msg varchar2) is
+    l varchar2(4000) := msg;
+  begin
+    while length(l) > 0 loop
+      dbms_output.put_line(substr(l,1,80));
+      l := substr(l,81);
+    end loop;
+  end;
+BEGIN  
+    v_file := UTL_FILE.FOPEN(location => 'EXPORT_PLSQLP', filename => TXT_FILE_NAME || '.txt', open_mode => 'w', max_linesize => 32767);
+  
+    dbms_sql.parse(  l_theCursor,  p_query, dbms_sql.native );
+    dbms_sql.describe_columns( l_theCursor, l_colCnt, l_descTbl );
+
+    for i in 1 .. l_colCnt loop
+        dbms_sql.define_column(l_theCursor, i, l_columnValue, 4000);
+    end loop;
+
+    l_status := dbms_sql.execute(l_theCursor);
+
+    while ( dbms_sql.fetch_rows(l_theCursor) > 0 ) loop
+        l_values := '';
+        for i in 1 .. l_colCnt loop
+            dbms_sql.column_value(l_theCursor, i, l_columnValue );
+            if i = l_colCnt then
+                l_values := l_values || l_columnValue;
+            else
+                l_values := l_values || l_columnValue || ',';
+            end if;
+        end loop;
+        
+        UTL_FILE.PUT_LINE(v_file, l_values);
+        
+        n := n + 1;
+    end loop;
+    if n = 0 then
+      dbms_output.put_line( chr(10)||'No data found '||chr(10) );
+    end if;
+    
+    UTL_FILE.FCLOSE(v_file);
+  
+    EXCEPTION
+        WHEN OTHERS THEN
+        UTL_FILE.FCLOSE(v_file);
+    RAISE;
+end EMP_TXT;
+
+call EMP_TXT('EMPLEADO', 'MYFILENAME');

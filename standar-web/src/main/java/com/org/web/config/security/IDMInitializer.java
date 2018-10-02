@@ -64,15 +64,18 @@ public class IDMInitializer {
 			adminUser.setEmail(adminEmail);
 			adminUser.setFirstName(adminFirstName);
 			adminUser.setLastName(adminLastName);
-
-			identityManager.add(adminUser);
-			identityManager.updateCredential(adminUser, new Password(password));
+			
 
 			// create admins group
 			Group adminsGroup = addGroup(identityManager, GroupsSecurityRolesNames.ADMINS.getCode());
 			
 			// create admin role
 			Role adminRole = addRole(identityManager, RolesSecurityNames.ADMINS.getCode());
+			
+			adminUser.setRolID(adminRole.getId());
+			
+			identityManager.add(adminUser);
+			identityManager.updateCredential(adminUser, new Password(password));
 			
 			RelationshipManager relationshipManager = partitionManager.createRelationshipManager();
 

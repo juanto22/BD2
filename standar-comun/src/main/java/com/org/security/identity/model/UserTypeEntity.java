@@ -55,6 +55,10 @@ public class UserTypeEntity extends AbstractIdentityTypeEntity {
 	@AttributeValue
 	@Column(length = 500)
 	private String address;
+	
+	@AttributeValue
+	@Column(length = 500)
+	private String rolID;
 
 	@AttributeValue
 	@Column

@@ -39,13 +39,26 @@
 					<f:selectItem itemValue="SCHEMA" itemLabel="SCHEMA" />
 					<f:selectItem itemValue="TABLE" itemLabel="TABLE" />
 					<f:selectItem itemValue="TABLESPACE" itemLabel="TABLESPACE" />
+					<p:ajax update="@form" />
 				</p:selectOneMenu>
 
-				<p:outputLabel value="Tabla" />
-				<p:selectOneMenu required="true" requiredMessage="Seleccione tabla"
+
+				<p:outputLabel value="Tabla"
+					rendered="#{empleadoView.jobMode ne 'SCHEMA'}" />
+				<p:selectOneMenu rendered="#{empleadoView.jobMode ne 'SCHEMA'}"
+					required="true" requiredMessage="Seleccione tabla"
 					id="somSchemaTableEtc" value="#{empleadoView.schemaTableEtc}">
 					<f:selectItem itemLabel="Seleccione" />
 					<f:selectItems value="#{empleadoView.tablesList}" />
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Donde Guardar" />
+				<p:selectOneMenu required="true"
+					requiredMessage="Seleccione Directorio" id="somDire"
+					value="#{empleadoView.dondeGuardar}">
+					<f:selectItem itemLabel="Seleccione" />
+					<f:selectItems value="#{empleadoView.dirsList}" />
 				</p:selectOneMenu>
 			</p:panelGrid>
 

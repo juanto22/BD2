@@ -116,19 +116,35 @@ public class EmpleadoService extends BaseService<Empleado, Long> {
         }
         return items;
     }
+	
+	public List<SelectItem> getDIRSNames() {
+		
+		List<SelectItem> items = new ArrayList<SelectItem>();
+		
+		Query query = em.createNativeQuery("SELECT DIRECTORY_NAME, DIRECTORY_PATH FROM ALL_DIRECTORIES");
+		List<Object[]> list = query.getResultList();
+		
+		for (Object[] dir : list) {
+			SelectItem item = new SelectItem(dir[0].toString(), dir[1].toString());
+			items.add(item);
+		}
+		return items;
+	}
 
-	public List<Object> doBackUpDataBase(String jobMode, String expName, String schemaTableEtc) throws Exception {
+	public List<Object> doBackUpDataBase(String jobMode, String expName, 
+			String schemaTableEtc, String dondeGuardar) throws Exception {
         List<Object> response = new ArrayList<>();
 
        
 			doWork(new Work() {
 			    @Override
 			    public void execute(Connection connection) throws SQLException {
-			        String procedureName = "{call  BACK_UP_DB(?,?,?)}";
+			        String procedureName = "{call  BACK_UP_DB(?,?,?,?)}";
 			        try (CallableStatement callable = connection.prepareCall(procedureName)) {
 			            callable.setString(1, jobMode);
 			            callable.setString(2, expName);
 			            callable.setString(3, schemaTableEtc);
+			            callable.setString(4, dondeGuardar);
 
 			            boolean ret = callable.execute();
 			        }

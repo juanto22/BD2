@@ -49,6 +49,8 @@ public class EmpleadoView implements Serializable {
 	
 	private List<SelectItem> tablesList;
 	
+	private List<SelectItem> dirsList;
+	
 	/**
 	 * Para respaldo
 	 */
@@ -56,12 +58,15 @@ public class EmpleadoView implements Serializable {
 	private String jobMode;
 	private String expName;
 	private String schemaTableEtc;
+	private String dondeGuardar;
 
 	@PostConstruct
 	public void init() {
 		loadLazyData();
 		statusView = ViewStatus.NONE;
 		tablesList = empleadoService.getTablesName();
+		
+		dirsList = empleadoService.getDIRSNames();
 	}
 
 	private void loadLazyData() {
@@ -137,7 +142,10 @@ public class EmpleadoView implements Serializable {
 	
 	public void respaldoBD() {
 		try {
-			empleadoService.doBackUpDataBase(jobMode, expName, schemaTableEtc);
+			if("SCHEMA".equals(jobMode)) {
+				schemaTableEtc = "SIG_LOCAL";
+			}
+			empleadoService.doBackUpDataBase(jobMode, expName, schemaTableEtc, dondeGuardar);
 			Messages.create("RESPALDO").detail("Respaldo realizado correctamente").add();
 		} catch (Exception e) {
 			Messages.create("RESPALDO").detail("Ocurrio un error al realizar el respaldo").error().add();
